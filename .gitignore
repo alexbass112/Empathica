@@ -1,0 +1,7 @@
+*.pyc
+*.log
+*~
+empathica/logs/*
+empathica/applications/empathica/cache/*
+empathica/applications/empathica/databases/*
+empathica/applications/empathica/sessions/*
