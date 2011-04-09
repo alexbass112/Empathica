@@ -1,0 +1,31 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+    <style type="text/css">{{ include 'cam/counsellor.css'}}</style>
+{{ end #css }}
+
+{{ block onReady }}
+    {{ include 'cam/counsellor.js' }}
+{{ end #onReady }}
+
+{{ block header-left }}
+    <li id="btnDone" class="tooltip" title="Back to Overview"></li>
+{{ end #header-left }}
+
+{{ block header-right }}
+    <li id="btnEditor" class="tooltip" title="Switch to Editor"></li>
+{{ end #header-right }}
+
+{{ block content }}
+    <h1>Counsellor</h1>
+    <h3>Talk to the counsellor to build your map</h3>
+    <div id="conversation"></div>
+    <div id="input" class="user message hidden">
+        <div class="icon"></div>
+        <textarea id="send" name="send" spellcheck=false rows=1></textarea>
+    </div>
+    <div id="instructions">
+        <h3 id="i-PressEnter" class="hidden">Press <img class="keyboard-icon" src="{{=URL('static','images/keyboard/kbEnter.png')}}" alt="ENTER" /> to reply</h3>
+        <h3 id="i-Waiting" class="hidden">Counsellor is typing ...</h3>
+    </div>
+{{ end #content }}

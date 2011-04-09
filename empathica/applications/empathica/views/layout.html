@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{{  # Globals
+
+    DEBUG = False        # system-wide debug mode
+    REDLINES = False     # show red outlines around every element
+    # NOTE: set both to False before deployment!
+    
+    # UserName
+    if auth.is_logged_in():
+        if auth.user.first_name and auth.user.last_name:
+            USER = auth.user.first_name+' '+auth.user.last_name
+        else:
+            USER = auth.user.email
+        pass
+    else:
+        USER = None
+    pass
+}}
+{{ include }}
+<html>
+    <head>
+        <title>Empathica{{=' | '+response.title if response.title else ''}}</title>
+        <link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" />
+        <!--<link rel="apple-touch-icon" href="{{=URL('static','favicon.png')}}" />-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="keywords" content="{{=response.keywords}}" />
+        <meta name="description" content="{{=response.description}}" />
+        <meta name="author" content="{{=response.author}}" />
+        <meta name="application-name" content="Empathica" />
+        <meta name="msapplication-tooltip" content="Empathica Conflict Modeling" />
+        <meta name="msapplication-starturl" content="./" />
+        <meta name="msapplication-msapplication-navbutton-color" content="#333333" />
+        <meta name="msapplication-window" content="width=900;height=700" />
+        <link rel="stylesheet" href="{{=URL('static','css/jquery.ui.1.8.9.custom.min.css')}}" />
+        <link rel="stylesheet" href="{{=URL('static','css/jquery.tipTip.min.css')}}" />
+        <link rel="stylesheet" href="{{=URL('static','font/import.css')}}" />
+        <link rel="stylesheet" href="{{=URL('static','css/empathica.base.css')}}" />
+        {{ block css }}{{ end #css }}
+        {{ if DEBUG: }}
+        <script>{{ include 'static/js/jquery.min.js' }}</script>
+        {{ else: }}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        {{ pass }}
+        {{ if REDLINES: }}
+        <style type="text/css">
+            body * { outline: 1px dotted red; }
+        </style>
+        {{ pass }}
+    </head>
+    <body>
+        <div class="flash hidden"><div class="flash-x hidden"></div>{{=response.flash or ''}}</div>
+        {{ if 'header' in globals(): }}
+            {{ header() }}
+        {{ else: }}
+        <div id="header">
+            <div class="wrapper">
+                <div class="left">
+                    <ul>
+                        {{ block header-left }}
+                            <li id="btnBack"></li>
+                        {{ end #header-left }}
+                    </ul>
+                </div>
+                <div class="center">
+                    {{ block header-center }}
+                        <a id="header-logo" tabindex=-1></a><!--href="{{=URL('default','index')}}"--> 
+                    {{ end #header-center }}
+                </div>
+                <div class="right">
+                    <ul>
+                        {{ block header-right }}
+                            <li id="btnUserMenu">
+                                {{ if USER: }}
+                                <style type="text/css">#header #btnUserMenu .toolbarButton-active { color: #666; background-color: #fff; }</style>
+                                <ul id="user-menu" class="hidden">
+                                    <li><a href="{{=URL('conflict','manage')}}">Manage Conflicts</a></li>
+                                    <li><a href="{{=URL('default','user',args=['profile'])}}">User Settings</a></li>
+                                    <li><a href="{{=URL('default','user',args=['logout'])}}">Sign out</a></li>
+                                </ul>
+                                {{ pass }}
+                            </li>
+                        {{ end #header-right }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+        {{ pass #header }}
+        {{ if 'content' in globals(): }}
+            {{ content() }}
+        {{ else: }}
+            <div class="wrapper">
+                <div id="content">
+                    {{ block content }}
+                    {{ end #content }}
+                </div>
+            </div>
+        {{ pass #content }}
+        {{ if 'footer' in globals(): }}
+            {{ footer() }}
+        {{ else: }}
+        <div id="footer">
+            <div class="wrapper">
+                <div class="left">
+                    {{ block footer-left }}
+                    {{ end #footer-left }}
+                </div>
+                <div class="center">
+                    {{ block footer-center }}
+                        <div id="footer-top" class="tooltip" title="Top"></div>
+                    {{ end #footer-center }}
+                </div>
+                <div class="right">
+                    {{ block footer-right }}
+                    {{ end #footer-right }}
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        {{ pass #footer }}
+        <script src="{{=URL('static', 'js/jquery.ui.1.8.9.custom.min.js')}}"></script>
+        <script src="{{=URL('static', 'js/jquery.tipTip.min.js')}}"></script>
+        <script src="{{=URL('static', 'js/jquery.autoresize.min.js')}}"></script>
+        <script src="{{=URL('static', 'js/jquery.infieldlabel.min.js')}}"></script>
+        <script src="{{=URL('static', 'js/jquery.formLabels.js')}}"></script>
+        <script src="{{=URL('static', 'js/jquery.blockUI.js')}}"></script>
+        <script src="{{=URL('static', 'js/jquery.equalHeights.js')}}"></script>
+        <script src="{{=URL('static', 'js/jquery.hyphenate.js')}}"></script>
+        <script src="{{=URL('static', 'js/jquery.hoverIntent.min.js')}}"></script>
+        <!--<script src="{{=URL('static', 'js/jquery.validate.pack.js')}}"></script>-->
+        <script src="{{=URL('static', 'js/jquery.timeago.js')}}"></script>
+        <script src="{{=URL('static', 'js/jquery.toolbarButton.js')}}"></script>
+        {{ include 'web2py_ajax.html' }}
+        {{ block js }}{{ end #js }}
+        <script>
+            $(document).ready(function(){
+                {{ include 'static/js/empathica.global.js' }}
+                {{ block onReady }}{{ end #onReady }}
+                {{ if DEBUG: }}
+                // Debug AJAX calls
+                $.ajaxSetup({"error":function(XMLHttpRequest,textStatus, errorThrown) {
+                    alert("AJAX ERROR: " + textStatus + "\nERROR TYPE:" + errorThrown + "\nRESPONSE: " + XMLHttpRequest.responseText);
+                }});
+                {{ pass }}
+            });
+        </script>
+    </body>
+</html>

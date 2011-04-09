@@ -1,0 +1,35 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+
+{{ end #css }}
+
+{{ block js }}
+
+{{ end #js }}
+
+{{ block onReady }}
+{{ end #onReady }}
+
+{{ block content }}
+    <form action="" enctype="multipart/form-data" method="post">
+    <div class="row">
+   
+    <!--<label for="title">Title:</label><input name="title" type="text" />-->
+    </div>
+    <div class="row"><label for="description">Description:</label><textarea cols="40" name="description" rows="10"></textarea>
+    </div>
+    <div class="row"><input type="submit" value="Create" />
+    </div>
+    <div class="hidden"><input name="a" type="hidden" value="b" /><input name="_formname" type="hidden" value="NewConflict" /></div></form> 
+
+    <h2>Submitted variables</h2>
+    {{=BEAUTIFY(request.vars)}}
+    <h2>Accepted variables</h2>
+    {{=BEAUTIFY(form.vars)}}
+    <h2>Errors in form</h2>
+    {{=BEAUTIFY(form.errors)}}
+    {{ for conflict in conflicts: }}
+        {{=BEAUTIFY(conflict)}}<br />
+    {{ pass }}
+{{ end #content }}

@@ -1,0 +1,214 @@
+/* Heading
+*******************************************************************************/
+#content h1 { margin-bottom: 10px; }
+#content h3 { padding-bottom: 20px; } /* override */
+#ampersand {
+    float: left;
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+    width: 45px;
+}
+#conflict-groups { overflow: hidden; }
+#conflict-groups h2 { float: left; }
+#conflict-groups h2:not(#ampersand) {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+    padding: 10px;
+    width: 375px;
+}
+#conflict-groups h2#ampersand { padding: 10px; }
+#description {
+    color: #999;
+    line-height: 24px;
+    margin: 0 50px 0 50px;
+    text-align: center;
+}
+.description {
+    color: #999;
+    line-height: 18px;
+    font-size: 14px;
+    padding: 10px 20px 0 20px;
+}
+
+/* Overview
+*******************************************************************************/
+#overview { text-align: center; }
+#overview  .header { 
+    padding-bottom: 10px; 
+    text-align: center;
+}
+#overview #description { padding-bottom: 10px; }
+#overview .group { width: 388px; }
+#overview .group ul {
+    text-align: left;
+    padding: 0 10px 0 10px;
+}
+#overview .group ul li {
+    border-left: 3px solid #e1e1e1;
+    margin-bottom: 10px;
+    padding: 0 10px 0 10px;
+}
+#overview #invite { padding-top: 10px; }
+
+#conflict-groups {
+    font-size: 28px;
+    text-align: center;
+}
+
+/* Cognitive Affective Maps */
+.cams { width: 407px; margin-top: 20px; }
+.cams .outline {
+    border-top: 1px solid white;
+}
+
+/* CAM List */
+.cam .thumbnail {
+    background: #fff;
+    height: 260px; width: 407px;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+    outline: 1px solid #e1e1e1;
+    
+}
+.cam .thumbnail .title {
+    color: #aaa !important;
+    position:absolute;
+    bottom:10px;left:0;
+    width:407px;
+}
+.cam .image:hover { outline: 3px solid #e1e1e1; }
+.cam .image:active { outline: 3px solid #aaa; }
+.cam .image {
+position:absolute;
+  top:0;left:0;
+    outline: 1px solid #e1e1e1;
+height: 260px; width: 407px;
+}
+
+.cam .overlay {
+    position:absolute;  
+    height: 260px;
+  width:407px;
+  top: 0px;
+  left:0px;
+  color: white; 
+  background: #333;
+  filter:alpha(opacity=80);  
+  -moz-opacity:0.8;  
+  -khtml-opacity: 0.8;  
+  opacity: 0.8;  
+  display: none;
+}
+.cam .overlay .option {
+    width: 203px;
+    height: 407px;
+    cursor: pointer;
+}
+.cam .overlay .option:hover {
+    background: #000;
+}
+.cam .overlay .option .icon {
+    width: 64px; height: 64px;
+    margin: 80px 70px 10px 70px;
+}
+.cam .overlay .option .icon#counsellor {
+    background: url("{{=URL('static','images/icons/counsellor.png')}}") no-repeat center center;
+}
+.cam .overlay .option .icon#editor {
+    background: url("{{=URL('static','images/icons/editor.png')}}") no-repeat center center;
+}
+.cam .overlay .save {
+    cursor: pointer;
+    position: absolute;
+    top: 200px; left: 157px;
+    padding: 5px;
+    border: 1px solid transparent;
+}
+.cam .overlay .save:hover {
+    background: #000;
+    border-color: #fff;
+}
+
+/*
+#groups {
+}
+
+#cams {
+
+}
+#cams > .group {
+ 
+}
+
+#cams .group-name {
+    font-size: 24px;
+    padding: 10px;
+    text-align: center;
+}
+#cams .cam {
+    background: #fff;
+    margin: 0px 0px 10px 0px;
+    outline: 1px solid #e1e1e1;
+
+    cursor: pointer;
+}
+#cams .cam:hover {
+    outline: 3px solid #e1e1e1;
+    
+}
+#step-4 {
+    text-align: center;
+
+    margin: 0 auto;
+}
+
+#progress tr {
+    cursor: pointer;
+}
+#progress td.instruction {
+    line-height: 24px;
+    font-size: 16px;
+    display: block;
+    margin: 0px 10px 20px 10px;
+
+}
+#progress tr:last-child td { margin-bottom: 0px; }
+#progress td.status {
+    width: 30px;
+    height: 30px;
+}
+
+.icon { height: 30px; width: 30px; }
+{{ for i in range(6): }}
+.icon-{{=i}} { background: url("{{=URL('static','images/icons/numbers.png')}}") no-repeat -{{=i*30}}px 0px;}
+{{ pass }}
+.cam .icon {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.hover-step {
+    color: #999;
+}
+
+.cam-overlay {
+    color: white;
+    width: 100%;
+    height: 100%;
+}
+*/
+.timestamp { color: #aaa; }
+
+#controls {
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+}
+#controls button {
+    width: 125px;
+    margin-left: 17px;
+}

@@ -1,0 +1,276 @@
+/* EMPATHICA BASE CSS 
+*******************************************************************************/
+
+/* Reset v1.0 | 20080212 | credit: http://meyerweb.com/eric/tools/css/reset/
+*******************************************************************************/
+html, body, div, span, 
+h1, h2, h3, h4, h5, h6, p, 
+a, img, b, u, i, ol, ul, li,form, label, 
+input, button, table, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+body { line-height: 1; }
+ol, ul { list-style: none; }
+:focus { outline: 0; }
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+image { border-style: none; }
+a { text-decoration: none; color: inherit; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+::-moz-focus-inner { border:0; }
+/* text selection */
+::selection, ::-moz-selection, ::-webkit-selection  { background-color: #e1e1e1; }
+
+/* Fonts
+*******************************************************************************/
+html, body, input, textarea, select {
+    color: #666;
+    font-size: 16px; 
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, sans-serif;
+}
+strong, em, b, i {
+    font-family: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, sans-serif;
+}
+h1, h2, h3 {
+    font-family: "LatoLight", "Segoe UI Light", "Lucida Sans Unicode", "Lucida Grande", Verdana, sans-serif;
+}
+h6 { font-family: "Verdana", sans-serif }
+/* Font sizes */
+h1 { font-size: 48px; }
+h2 { font-size: 36px;}
+h3 { font-size: 24px; }
+h6 { font-size: 12px; }
+
+/* Helpers
+*******************************************************************************/
+/* Layout */
+.hidden { display: none; }
+.left { float: left; text-align: left; }
+.center { text-align: center; }
+.right { float: right; text-align: right; }
+.clear { clear: both; }
+/* Horizontal layout */
+.horizontal { overflow: hidden; }
+.horizontal > * { float: left; }
+/* Prevent selection */
+.unselectable {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -o-user-select: none;
+   user-select: none;
+   cursor: default;
+}
+.unselectable:active { cursor: default; }
+/* Wrap text */
+.wordwrap {
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+/* Body
+*******************************************************************************/
+html, body {
+    background: #f5f5f5;
+    height: 100%; min-height: 100%; width: 100%;
+}
+.wrapper {
+    margin: 0 auto;
+    width: 840px;
+}
+
+/* Header
+*******************************************************************************/
+#header {
+    background-color: #333;
+    border-bottom: 10px solid #e1e1e1;
+    border-top: 3px solid #666;
+    font-size: 14px;
+    height: 44px; min-width: 840px;
+    position: relative;
+}
+#header .wrapper { position: relative; }
+#header-logo {
+    background: url('../images/toolbar/logo.png');
+    display: block;
+    height: 44px; width: 182px;
+}
+#header .center {
+    height: 44px; width: 182px;
+    position: absolute; left: 50%; margin-left: -91px;
+}
+#header .toolbarButton-active { color: #333; background-color: #e1e1e1; }
+#header .toolbarButton-inactive { color: #e1e1e1; background-color: #333; }
+#header .toolbarButton-label { font-size: 12px; }
+#header .divider { height: 44px; width: 24px; }
+/* Header > User Menu */
+#header #user-menu {
+    border: 10px solid #e1e1e1; border-top: none;
+    position: absolute; top: 44px; right: -10px;
+    z-index: 100;
+}
+#header #user-menu li{
+    background-color: #fff;
+    text-align: left;
+}
+#header #user-menu li a {
+    color: #666;
+    display: block;
+    padding: 10px
+}
+#header #user-menu li a:hover { background-color: #f5f5f5; }
+#header #user-menu li:last-child { border-top: 1px solid #e1e1e1; }
+
+/* Footer
+*******************************************************************************/
+#footer {
+    color: #666;
+    font-size: 12px;
+    height: 44px;
+    padding: 30px 0 30px 0;
+}
+#footer .left, #footer .right { line-height: 32px; width: 404px; }
+#footer-top { 
+    background: url("../images/icons/top.png") center center no-repeat;
+    cursor: pointer;
+    height: 32px; width: 32px;
+    position: absolute; left: 50%; margin-left: -16px;
+    opacity: 0.2;
+}
+#footer-top:hover { opacity: 1.0; }
+
+/* Content
+*******************************************************************************/
+#content > .divider { height: 30px; }
+#content > h1, #content > h2, #content > h3 {
+    color: #666;
+    text-align: center;
+}
+#content > h1 { padding: 30px 0 0 0; }
+#content > h2 { padding: 20px 0 30px 0; }
+#content > h3 { padding: 10px 0 30px 0; }
+.section {
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    margin-bottom: 10px;
+    padding: 30px;
+}
+.section h2 { margin-bottom: 20px; }
+.section h3 { margin-bottom: 10px; }
+.section p { line-height: 30px; margin-bottom: 10px; }
+.section p:last-child { margin-bottom: 0px; }
+/* Notifications */
+.flash {
+    color: #fff; background-color: #000;
+    position: fixed; bottom: 30px; z-index: 9999;
+    padding: 15px 30px 15px 30px;
+    cursor: pointer;
+    text-align: center;
+}
+.flash-x {
+    background: url('../images/icons/close.png') no-repeat top left;
+    width: 30px; height: 30px;
+    position: absolute; top: -14px; right: -16px;
+}
+
+/* Controls
+*******************************************************************************/
+/* All */
+button, input[type='text'], input[type='password'], 
+input[type='button'], input[type='submit'], textarea { 
+    border: 0;
+    color: #666; background-color: #fff;
+    margin: 3px;
+    outline-offset: 0;
+}
+/* Text inputs */
+input[type='text'], input[type='password'], textarea {
+    color: #333;
+    padding: 3px;
+    outline: 1px solid #e1e1e1;
+}
+textarea { 
+    resize: none;
+    overflow-y: hidden;
+}
+input[type='text']:hover, textarea:hover { outline: 3px solid #e1e1e1; }
+input[type='text']:focus, textarea:focus { outline: 3px solid #aaa; }
+/* Buttons */
+button, input[type='submit'], input[type='button'] {
+    background-color: #e1e1e1;
+    font: 14px Verdana; text-transform: uppercase;
+    padding: 7px 12px 7px 12px;
+    border-color: #aaa !important;
+    border-bottom: 2px solid #aaa !important;
+    outline: 1px solid #aaa;
+}
+button:focus, input[type='submit']:focus, input[type='button']:focus {
+    color: #999; background-color: #fff;    
+    border-color: #e1e1e1 !important;
+    border-bottom: 2px solid #e1e1e1 !important;
+    outline: 3px solid #aaa !important;
+}
+button:active, input[type='submit']:active, input[type='button']:active {
+    border-color: #e1e1e1 !important;
+    border-bottom: 0 !important;
+    border-top: 2px solid #e1e1e1 !important;
+}
+button:hover, input[type='submit']:hover, input[type='button']:hover {
+    color: #999; background: #fff;
+    border-color: #e1e1e1 !important;
+    border-bottom: 2px solid #e1e1e1;    
+    outline: 1px solid #e1e1e1 !important;
+}
+/* Select */
+select {
+    border: 1px solid #e1e1e1;
+}
+
+
+/* Radio | CREDIT: http://devgrow.com/iphone-style-switches */
+.cb-enable, .cb-disable, .cb-enable span, .cb-disable span { background: url("../images/switch.png") repeat-x; display: block; float: left; }
+.cb-enable span, .cb-disable span { line-height: 30px; display: block; background-repeat: no-repeat; }
+.cb-enable span { background-position: left -90px; padding: 0 10px; }
+.cb-disable span { background-position: right -180px;padding: 0 10px; }
+.cb-disable.selected { background-position: 0 -30px; }
+.cb-disable.selected span { background-position: right -210px; color: #fff; }
+.cb-enable.selected { background-position: 0 -60px; }
+.cb-enable.selected span { background-position: left -150px; color: #fff; }
+.switch label { cursor: pointer; }
+.switch input { display: none; }
+    
+/* Modal Window
+*******************************************************************************/
+#modal-overlay {
+    background-color: #000;
+    cursor: wait;
+}
+#modal-container {
+    background-color: #f5f5f5;
+    border: 10px solid #e1e1e1;
+}
+#modal-container a.modalCloseImg {
+    background: url('../images/icons/close.png') no-repeat;
+    cursor: pointer;
+    display: inline;
+    height: 30px; width: 30px; z-index: 100;
+    position: absolute; right: -22px; top: -20px;
+}
+#modal-header {
+    color: #fff; background-color: #333;
+    line-height: 38px;
+    text-align: center;
+    padding: 10px 30px 10px 30px;
+}
+#modal-form { padding: 30px; }

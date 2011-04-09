@@ -1,0 +1,71 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+    <style type="text/css">{{ include 'default/index.css' }}</style>
+{{ end #css }}
+
+{{ block onReady }}
+    {{ include 'default/index.js' }}
+{{ end }}
+
+{{ def header(): }}
+    {{
+        if USER:
+            startUrl = URL('conflict','manage')
+            startLbl = "Resume"
+        else:
+            startUrl = URL('default','user/login')
+            startLbl = "Get Started"
+        pass
+    }}
+    <div id="banner">
+        <div class="wrapper">
+            <div id="title"></div>
+            <div id="links">
+                <button id="about" onclick='location.href="{{=URL('about')}}";'>Learn More</button>
+                <button id="start" onclick='location.href="{{=startUrl}}";'>{{=startLbl}}</button>
+            </div>
+        </div>
+    </div>
+{{ return #header }}
+
+{{ block content }}
+    <div id="border"></div>
+    <div id="slider">
+        <div id="info">
+            <img src="{{=URL('static','images/index/info1.png')}}" />
+            <div id="description">
+                <p>Empathica is based on the hope that increasing empathy between people can help to overcome impasses in disputes in many domains: couples, families, organizations, politics, and so on. Empathica conveys mutual understanding of values and emotions through cognitive-affective maps.</p>
+            </div>
+        </div>
+        <ul id="options">
+            <li class="active">
+                <a href="{{=URL('static','images/index/info1.png')}}"></a>
+                <h3>What is Empathica?</h3>
+                <p>Empathica is based on the hope that increasing empathy between people can help to overcome impasses in disputes in many domains: couples, families, organizations, politics, and so on. Empathica conveys mutual understanding of values and emotions through cognitive-affective maps.</p>
+            </li>
+            <li>
+                <a href="{{=URL('static','images/index/info2.png')}}"></a>
+                <h3>How it works</h3>
+                <p>Assuming a conflict between two persons, both individuals create a cognitive-affective map representing their view of the conflict. Based on similarities and differences, Empathica suggests to both disputants what they might focus on to resolve their disagreements.</p>
+            </li>
+            <li>
+                <a href="{{=URL('static','images/index/info3.png')}}"></a>
+                <h3>Cognitive Affective Maps</h3>
+                <p>A cognitive-affective map is a diagram that shows concepts and beliefs along with the emotional values attached to them. It also shows the relationships between concepts that support each other or conflict with each other.</p>
+            </li>
+            <li>
+                <a href="{{=URL('static','images/index/info4.png')}}"></a>
+                <h3>Counsellor</h3>
+                <p>The Counsellor assists casual users in the creation of cognitive-affective maps through natural dialogue. An alternative and more direct approach is to use the map editor.</p>
+            </li>
+            <li>
+                <a href="{{=URL('static','images/index/info5.png')}}"></a>
+                <h3>Conflict Resolution</h3>
+                <p>With both sides of the conflict mapped, Empathica is able to suggest compromises that disputants should focus on to resolve their disagreements.</p>
+            </li>
+            <li id="more"><h3>Learn More</h3></li>
+        </ul>
+    </div>
+    <a href="http://www.uwaterloo.ca/" title="University of Waterloo"><div id="uw-logo"></div></a>
+{{ end #content }}

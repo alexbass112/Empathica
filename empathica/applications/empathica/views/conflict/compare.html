@@ -1,0 +1,72 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+    <style type="text/css">{{ include 'conflict/compare.css'}}</style>
+{{ end #css }}
+
+{{ block js }}
+{{ end #js }}
+
+{{ block onReady }}
+    {{ include 'conflict/compare.js' }}
+{{ end #onReady }}
+
+{{ block header-left }}
+    <li id="btnOverview"></li>
+{{ end #header-left }}
+
+{{ block content }}
+    {{
+        agree_top = []
+        agree = []
+        content_top = []
+        content = []
+        other = []
+        
+        top = ret_list[:len(ret_list)/2]
+        bottom = ret_list[len(ret_list)/2+1:]
+        
+        content_top += top[:5]
+        content += top[6:]
+        agree_top += bottom[len(bottom)-5:]
+        agree += bottom[:len(bottom)-5]
+    }}
+    <h1>Compare</h1>
+    <h3>Points of agreement & contention in the conflict</h3>
+    <div id="left" class="column left">
+        <h3 class="center">Points of</h3>
+        <h2 class="center">Agreement</h2>
+        <ul class="visible">
+            {{ for x in agree_top: }}
+            <li>{{=x[1]}}</li>
+            {{ pass }}  
+        </ul>
+        <ul class="hidden">
+            {{ for x in agree: }}
+            <li>{{=x[1]}}</li>
+            {{ pass }}  
+        </ul>
+    </div>
+    <div id="right" class="column right">
+        <h3 class="center">Points of</h3>
+        <h2 class="center">Contention</h2>
+        <ul class="visible">
+            {{ for x in content_top: }}
+            <li>{{=x[1]}}</li>
+            {{ pass }}  
+        </ul>
+        <ul class="hidden">
+            {{ for x in content: }}
+            <li>{{=x[1]}}</li>
+            {{ pass }}  
+        </ul>
+    </div>
+    <div id="center" class="column clear hidden">
+        <h3 class="center">Other points of Difference</h3>
+        <ul>
+        </ul>
+    </div>
+    <div class="center clear">
+        <button id="btnMore">Show More</button>
+    </div>
+{{ end #content }}

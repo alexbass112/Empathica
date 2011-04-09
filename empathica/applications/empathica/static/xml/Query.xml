@@ -1,0 +1,36 @@
+<Document>
+	<QuerySet>
+		<Preamble Mode='Conflict'>
+			<Comment Text='Hello. I am the Counselor conversational agent.'/>
+			<Comment Text='I am a simple bot designed to help model your emotional state with respect to a conflict.'/>
+			<Comment Text='To do this, I will ask you a series of questions about the issue.'/>
+			<Comment Text='Please answer to the best of your ability. My understanding is limited, but I will do my best.'/>
+			<Question Text='To begin with, what is your name?' Reply='INTRO'/>
+			<Question Text='Hello $USRNAME. Please tell me a bit about yourself.' Reply='GRMR'/>
+		</Preamble>
+		<Responses Mode='Conflict' Type='Expected'>
+			<Comment Text='I see. That makes sense.'/>
+			<Comment Text='That&apos;s what I thought.'/>
+			<Comment Text='I expected as much.'/>
+		</Responses>
+		<Responses Mode='Conflict' Type='Neutral'>
+			<Comment Text='I&apos;ll make a note of that.'/>
+			<Comment Text='That&apos;s good to know.'/>
+			<Comment Text='I understand.'/>
+		</Responses>
+		<Responses Mode='Conflict' Type='Unexpected'>
+			<Comment Text='Really? Okay.'/>
+			<Comment Text='That&apos;s not what I expected, but I think I get it.'/>
+			<Comment Text='Huh. Understood.'/>
+		</Responses>
+		<Queries Mode='Conflict'>
+			<Question Text='On a scale from 1 to 7, 1 being strongly dislike and 7 being strongly like, how do you feel about $CONCEPT?' Reply='RATE' Query='Rate'/>
+			<Question Text='Would you say $CONCEPT is related to $CONCEPT?' Reply='YESNO' Query='Relation'/>
+			<Question Text='Could you elaborate a little further?' Reply='GRMR' Query='More'/>
+			<Question Text='Please tell me a little more.' Reply='GRMR' Query='More'/>
+			<Question Text='Go on.' Reply='GRMR' Query='More'/>
+			<Question Text='Could you tell me more about $CONCEPT?' Reply='GRMR' Query='MoreAbout'/>
+			<Question Text='Tell me more about how $CONCEPT fits into this.' Reply='GRMR' Query='MoreAbout'/>
+		</Queries>
+	</QuerySet>
+</Document>

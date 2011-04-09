@@ -1,0 +1,70 @@
+.ampersand {
+    float: left;
+    padding: 0;
+    margin: 0;
+    width: 45px;
+}
+.conflict-groups { overflow: hidden; }
+.conflict-groups h2 { float: left; }
+.conflict-groups h2:not(.ampersand) {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+    padding: 10px;
+    width: 365px;
+}
+.conflict-groups h2.ampersand { padding: 10px; }
+#caption { margin-top: 20px; padding-bottom: 10px !important; }
+
+.suggestions {
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    padding: 30px;
+    width: 550px;
+    margin: 0 auto;
+}
+.suggestions li {
+    padding: 10px 10px 10px 35px;
+}
+.suggestions li.goal {
+    color: #0d5a00;
+    background: url("{{=URL('static','images/icons/do.png')}}") no-repeat center left;
+}
+.suggestions li.issue {
+    color: #b00000;
+    background: url("{{=URL('static','images/icons/dont.png')}}") no-repeat center left;
+
+}
+
+#nav {
+    margin: 0 auto;
+    width: 267px;
+    margin-bottom: 30px;
+    height: 39px;
+}
+
+#nav .disabled { opacity: 0.2 !important; } 
+#mav .disabled:hover { opacity: 0.2 !important; }
+#next, #prev {
+    cursor: pointer;
+    width: 24px; height: 32px; padding: 3px; opacity: 0.8;
+}
+#next:hover, #prev:hover { opacity: 1.0; }
+#nav #prev {
+    padding-right: 10px;
+    background: url("{{=URL('static','images/icons/prev.png')}}") no-repeat center center;
+}
+#nav #next {
+    padding-left: 10px;
+    background: url("{{=URL('static','images/icons/next.png')}}") no-repeat center center;
+}
+
+.smiley {
+    display: inline; margin-left: 5px;
+    padding-left: 50px;
+}
+.best { background: url("{{=URL('static','images/icons/smiley-happiest.png')}}") no-repeat center center; }
+.better { background: url("{{=URL('static','images/icons/smiley-happy.png')}}") no-repeat center center; }
+.content { background: url("{{=URL('static','images/icons/smiley-content.png')}}") no-repeat center center; }
+.worse { background: url("{{=URL('static','images/icons/smiley-worse.png')}}") no-repeat center center; }
+.worst { background: url("{{=URL('static','images/icons/smiley-worst.png')}}") no-repeat center center; }

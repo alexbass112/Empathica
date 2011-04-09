@@ -1,0 +1,98 @@
+/* Invitations
+*******************************************************************************/
+#invitations > li {
+    padding: 10px;
+}
+#invitations > li:hover {
+    background-color: #f5f5f5;
+    outline: 1px solid #e1e1e1;
+}
+#invitations > li .controls > div{
+
+}
+#invitations > li  .left {
+    width: 575px;
+}
+#invitations > li .right {
+
+}
+
+/* Tabs of steel
+*******************************************************************************/
+#tabs .tab {
+    border: 1px solid #f5f5f5;
+    border-top: 1px solid #f5f5f5;
+    border-bottom: 1px solid #e1e1e1;
+    color: #aaa;
+    cursor: pointer;
+    text-align: center;
+    padding: 20px;
+    width: 378px;
+}
+#tabs .tab:not(.selected):hover {
+    background-color: #e1e1e1;
+    border-color: #e1e1e1;
+    color: #666;
+}
+#tabs .tab.selected {
+    background: #fff;
+    cursor: default;
+    color: #666;
+    border: 1px solid #e1e1e1;
+    border-bottom: 1px solid #fff;
+}
+#tabs .empty {
+    background: #fff;
+    color: #999;
+    padding: 100px 0 100px 0;
+    border-left: 1px solid #e1e1e1;
+    border-right: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+    text-align: center;
+}
+.count { color: #aaa; }
+
+/* Conflicts
+*******************************************************************************/
+.conflicts {
+    background: #fff;
+    padding: 0px 30px 30px 30px;
+    border-bottom: 1px solid #e1e1e1;
+}
+.conflicts, .sort-controls {
+     border-left: 1px solid #e1e1e1;
+     border-right: 1px solid #e1e1e1;
+}
+.sort-controls {
+    background: #fff;
+    padding: 10px 30px 10px 30px;
+}
+.sort-controls .left > li { margin-right: 10px; }
+.sort-controls .right > li { margin-left: 10px; }
+.conflicts a {
+    border-top: 1px solid #e1e1e1;
+    padding-bottom: 10px;
+    padding: 15px;
+}
+.conflicts a { display: block; position: relative; }
+.conflicts a:hover, .conflicts a:focus, .conflicts a:active {
+    background: #f5f5f5;
+    border-top-color: transparent;
+    outline: 3px solid #e1e1e1;
+}
+.conflicts a:focus, .conflicts a:active { outline-color: #aaa; }
+.conflicts h3 { margin-bottom: 5px; }
+.conflicts .description {
+    color: #999;
+    font-size: 16px;
+    margin: 20px 0 20px 0;
+}
+.conflicts .btnX {
+    background: url("{{=URL('static','images/icons/delete.png')}}");
+    display: none;
+    width: 24px; height: 24px;
+    position: absolute; top: 10px; right: 10px;
+    opacity: 0.5;
+}
+.conflicts .btnX:hover { opacity: 1.0; }
+.conflicts .timestamp { color: #aaa; }

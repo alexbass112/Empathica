@@ -1,0 +1,14 @@
+#nav {
+    margin-top: 10px; margin-bottom: 15px;
+    text-align: center;
+}
+#nav button {
+    margin: 3px 1px 3px 1px;
+}
+.list {
+    list-style: square;
+    margin-left: 18px;
+}
+.list li {
+    line-height: 30px;
+}

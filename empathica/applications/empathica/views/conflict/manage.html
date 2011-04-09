@@ -1,0 +1,167 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+    <style type="text/css">{{ include 'conflict/manage.css' }}</style>
+{{ end #css }}
+
+{{ block js }}
+{{ end #js }}
+
+{{ block onReady }}
+    {{ include 'conflict/manage.js' }}
+{{ end #onReady }}
+
+{{ block header-left }}
+    <!-- Override -->
+{{ end #header-left }}
+
+{{ block content }}
+    <h1>Manage Conflicts</h1>
+    <h3>Accept invites to participate in conflicts or manage your own</h3>
+    {{ if len(invites) > 0: }}
+    <div class="section">
+        <h3>You are invited to participate in {{=len(invites) if len(invites) > 1 else "a"}} conflict{{="s" if len(invites) > 1 else ""}}:</h3>
+        <ul id="invitations">
+        {{ for invite in invites: }}
+            <li>
+                <div class="left" style="line-height: 32px">
+                    Invitation from <b>{{=invite['invite_from']}}</b> to participate in '{{=invite['conflict']}}' with group <b>{{=invite['group']}}</b>
+                </div>
+                <div class="controls horizontal right">
+                    <button onclick="location.href='{{=URL('accept_invite',args=[invite['id']])}}'">ACCEPT</button>
+                    <button onclick="location.href='{{=URL('ignore_invite',args=[invite['id']])}}'">IGNORE</button>
+                </div>
+                <div class="clear"></div>
+            </li>
+        {{ pass }}
+        </ul>
+    </div>
+    {{ pass }}
+    <div id="tabs">
+        {{ # initial tab selection
+            showOpen = not(len(closed) > 0 and len(open) == 0)
+            hide = "display:none;"
+        }}
+        <div id="tab-open" class="left tab {{='selected' if showOpen else ''}}"><h2>Open {{if len(open) > 0: }}<span class="count">({{=len(open)}})</span>{{pass}}</h2></div>
+        <div id="tab-closed" class="right tab {{='selected' if not showOpen else ''}}"><h2>Closed {{if len(closed) > 0: }}<span class="count">({{=len(closed)}})</span>{{pass}}</h2></div>
+        <div class="clear"></div>
+        <div id="open" style="{{=hide if not showOpen else ''}}">
+            {{ if len(open) > 0: }}
+            <div class="sort-controls">
+                <ul class="horizontal left">
+                    <li><button id="btnNewConflict" onclick="location.href='{{=URL('new')}}'">New Conflict</button></li>
+                </ul>
+                <ul class="horizontal right hidden"> 
+                    <li style="line-height: 34px; color: #aaa;">Sort by</li>
+                    <li><button id="btnSortOpenByName">Name</button></li>
+                    <li><button id="btnSortOpenByDate">Date</button></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+                <ul class="open conflicts">
+                {{ for c in open: }}
+                    {{
+                        conflict = c['conflict']
+                        groups = c['groups']
+                        overviewURL = URL('overview',args=[conflict['id']])
+                    }}
+                    <li class="open" id="{{=conflict['id']}}"><a href="{{=overviewURL}}">
+                        <div class="details">
+                            <h3>{{=conflict['title']}}</h3>
+                            <div class="disputants">Disputants: {{=groups[0]['name']}} & {{=groups[1]['name']}}</div>
+                            <div class="description">{{=conflict['description']}}</div>
+                        </div>
+                        <div class="btnX btnClose tooltip" title="Close"></div>
+                        <h6 class="timestamp left" title="{{=conflict['date_modified']}}">Updated </h6>
+                        <h6 class="timestamp right" title="{{=conflict['date_created']}}">Created </h6>
+                        <div style="clear:both"></div>
+                    </a></li>
+                {{ pass }}
+                </ul>
+            {{ else: }}
+                <div class="empty">
+                    <i>You are participating in no open conflicts right now.</i><br /><br />
+                    <button type="button" onclick="location.href='{{=URL('new')}}'">New Conflict</button>
+                </div>
+            {{ pass }}
+        </div>
+        <div id="closed" style="{{=hide if showOpen else ''}}">
+            {{ if len(closed) > 0: }}
+            <div class="sort-controls">
+                <ul class="horizontal right hidden"> 
+                    <li style="line-height: 34px; color: #aaa;">Sort by</li>
+                    <li><button id="btnSortClosedByName">Name</button></li>
+                    <li><button id="btnSortClosedByDate">Date</button></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+                <ul class="closed conflicts">
+                {{ for c in closed: }}
+                    {{
+                        conflict = c['conflict']
+                        groups = c['groups']
+                        overviewURL = URL('overview',args=[conflict['id']])
+                    }}
+                    <li class="closed" id="{{=conflict['id']}}"><a href="{{=overviewURL}}">
+                        <div class="details">
+                            <h3>{{=conflict['title']}}</h3>
+                            <div class="disputants">Disputants: {{=groups[0]['name']}} & {{=groups[1]['name']}}</div>
+                            <div class="description">{{=conflict['description']}}</div>
+                        </div>
+                        <div class="btnX btnDelete tooltip" title="Delete"></div>
+                        <h6 class="timestamp left" title="{{=conflict['date_modified']}}">Closed </h6>
+                        <h6 class="timestamp right" title="{{=conflict['date_created']}}">Created </h6>
+                        <div style="clear:both"></div>
+                    </a></li>
+                {{ pass }}
+                </ul>
+            {{ else: }}
+                <div class="empty">
+                    <i>You are participating in no closed conflicts right now.</i><br /><br />
+                    <button type="button" onclick="location.href='{{=URL('new')}}'">New Conflict</button>
+                </div>
+            {{ pass }}
+        </div>
+    </div>
+
+<!--
+<div class="section">
+    <h2>Invites<span class="item-count">({{=len(invites)}})</span></h2>
+    {{ if len(invites) > 0: }}
+        {{ for invite in invites: }}
+            <h3>{{=invite['conflict']}} - {{=invite['group']}}</h3>
+            <p>Invited by: {{=invite['invite_from']}}</p>
+            <a href="{{=URL('accept_invite', args=[invite['id']])}}">Accept</a>            
+            <input id="ignore_conflict" type="button" value="Ignore" />
+        {{ pass }}
+    {{ pass }}
+</div>
+<div class="section">
+    <h2>Open<span class="item-count">({{=len(open)}})</span></h2>
+    <div class="sort-controls">
+        Sort:
+        <input type="button" value="By Name" />
+        <input type="button" value="By Date" />
+    </div>
+    {{ if len(open) > 0: }}
+        {{ for record in open: }}
+              <div class="conflict-item">
+                <h3><a href="{{=URL('overview',args=[record['conflict']['id']])}}">{{=record['conflict']['title']}}</a></h3>
+                <p>Description: {{=record['conflict']['description']}}</p>
+                <br />
+                <h4>Groups:</h4>
+                {{ for group in record['groups']: }}
+                    <h6>{{ =group['name'] }}</h6>
+                    <a href="{{=URL('invite', args=[group['id']])}}">Invite</a>
+                    <p>{{ =group['description'] }}</p>
+                {{ pass }}
+                <h6>Modified: {{=record['conflict']['date_modified']}}</h6>
+                <h6>Created: {{=record['conflict']['date_created']}}<h6>
+            </div>        
+        {{pass}}
+    {{ else: }}
+        There are no open conflicts.
+    {{pass}}
+</div>
+-->
+{{ end #content }}

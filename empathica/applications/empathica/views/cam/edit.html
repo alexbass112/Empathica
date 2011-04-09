@@ -1,0 +1,139 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+    <style type="text/css">{{ include 'cam/edit.css' }}</style>
+{{ end #css }}
+
+{{ block js }}
+    <script src="{{=URL('static','js/jquery.simplemodal-1.4.1.min.js')}}"></script>
+    {{ if settings.web2py_runtime_gae: }}
+    <script type="text/javascript" src="/_ah/channel/jsapi"></script>
+    {{ pass }}
+    <script src="{{=URL('static','js/jquery.valign.js')}}"></script>
+    <script src="{{=URL('static','js/json2.js')}}"></script>
+    <script>{{ include 'static/js/graph.util.js' }}</script>
+    <script>{{ include 'static/js/graph.canvasExtension.js' }}</script>
+    <script>{{ include 'static/js/graph.themes.js' }}</script>
+    <script>{{ include 'static/js/graph.js' }}</script>
+    <script>{{ include 'static/js/graph.api.js' }}</script>
+    <script>{{ include 'static/js/graph.db.js' }}</script>
+    <script>{{ include 'static/js/graph.draw.js' }}</script>
+    {{ if settings.web2py_runtime_gae: }}
+    <script>{{ include 'static/js/graph.socket.js' }}</script>
+    {{ pass }}
+    <script>{{ include 'static/js/graph.event.js' }}</script>
+    <script>{{ include 'static/js/graph.test.js' }}</script>
+    <script>{{ include 'static/js/graph.undo.js' }}</script>
+    <script>{{ include 'static/js/graph.layout.js' }}</script>
+{{ end #js }}
+
+{{ block onReady }}
+    {{ include 'cam/edit.js' }}
+{{ end #onReady }}
+
+{{ block header-left }}
+    <li class="divider"></li>
+    <li id="btnDone" class="tooltip" title="Back to Overview"></li>
+{{ end #header-left }}
+
+{{ block header-center }}
+    <ul>
+        <li id="header-logo"></li>
+        <li class="divider"></li>
+        <li id="btnSelect" class="tooltip" title="Selection Tool"></li>
+        <li id="btnAddConcepts" class="tooltip" title="Add Concepts"></li>
+        <li id="btnAddConnections" class="tooltip" title="Add Connections"></li>
+        <li id="btnAddComments" class="tooltip hidden" title="Add Comments"></li>
+        <li class="divider"></li>
+        <li id="btnZoomFit" class="tooltip" title="Center on Screen"></li>
+        <li id="btnSettings" class="tooltip" title="Settings"></li>
+    </ul>
+{{ end #header-center }}
+
+{{ block header-right }}
+    <li class="divider"></li>
+    <li id="btnCounsellor" class="tooltip" title="Switch to Counsellor"></li>
+{{ end #header-right }}
+
+{{ def content(): }}
+    <h1 id="conflict-title" class="unselectable">{{=conflict.title}}</h1>
+    <h3 id="cam-title" class="unselectable">{{=cam.title}}</h3>
+    <div id="suggestions">
+        <span class="label">Suggestions:</span>
+        <ul class="">
+        </ul>
+    </div>
+    <div id="canvasDiv" style="overflow:hidden">
+        <canvas id="cam"></canvas>
+        <div id='textEditDiv' class="hidden">
+            <form>
+                <input id='textEditInput' type='text' />
+            </form>
+        </div>
+        <div id='valenceDiv'>
+            <div id='valenceInput'></div>
+        </div>
+        <div id="saveString" class="hidden">
+            <h2 style="background-color:#B90504" id="modal-header">Error!</h2>
+            <div id="modal-form" style="width:500px">
+                <center>
+                <label class="row">
+                    There was a problem saving your work.
+                    <br /><br />Please copy and save the cryptic text below. This text can be used later to restore your unsaved changes (goto Settings).
+                </label>
+                </center>
+                <div class="row">
+                    <textarea id="save-text" style="width:495px; height: 200px; margin-top:10px">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+        <div id="restoreGraph" class="hidden">
+            <h2 id="modal-header">Recover</h2>
+            <div id="modal-form" style="width: 500px"><center>
+                <label class="row">
+                    Copy and paste the cryptic recovery string below:
+                </label></center>
+                <div class="row">
+                    <textarea id="restore-text" style="width:495px; height: 200px; margin-top:10px">
+                    </textarea>
+                </div>
+                <div class="row">
+                    <button id='btnRestore' class="right">Restore</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Settings Window  -->
+    <div id="winSettings" class="hidden">
+        <h2 id="modal-header">Settings</h2>
+        <div id="modal-form" style="width:300px;">
+            <div class="row">
+                <div class="label">Show Title</div>
+                <div class="input">
+                    <div class="switch">
+                        <label class="cb-enable"><span>On</span></label>
+                        <label class="cb-disable"><span>Off</span></label>
+                        <input type="checkbox" id="showTitle" class="checkbox" name="showTitle" value="True" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="label">Theme</div>
+                <select id="theme" size="3" class="input">
+                    <option selected value="DEFAULT">Default</option>
+                    <option value="ALTERNATIVE">Alternative Colour</option>
+                    <option value="MONOCHROME">Monochrome</option>
+                </select>
+            </div>
+            <div class="row">
+                <button id="btnRecover" class="left">Recover</button>
+                <button id="btnApply" class="right">Apply</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+{{ return #content }}
+
+{{ def footer(): }}
+{{ return #footer }}

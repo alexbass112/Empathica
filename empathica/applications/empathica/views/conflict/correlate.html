@@ -1,0 +1,46 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+    <style type="text/css">{{ include 'conflict/correlate.css'}}</style>
+{{ end #css }}
+
+{{ block js }}
+    <script src="{{=URL('static','js/json2.js')}}"></script>
+{{ end #js }}
+
+{{ block onReady }}
+    {{ include 'conflict/correlate.js' }}
+{{ end #onReady }}
+
+{{ block header-left }}
+    <li id="btnOverview"></li>
+{{ end #header-left }}
+
+{{ block header-right }}
+    <li id="btnDone"></li>
+{{ end #header-right }}
+
+{{ block content }}
+    <h1>Correlate</h1>
+    <h3>Connect concepts by meaning</h3>
+    <div style="position: relative;">
+        <div id="left" class="column">
+            <ul class="concepts">
+            </ul>
+        </div>
+        <div id="center" class="column">
+            <h3 class="center">Correlated Concepts</h3>
+            <div class="center" style="font-size: 14px; color: #aaa; margin-bottom: 10px">Drag & drop concepts from one set to the other</div>
+            <ul id="pairs">
+            </ul>
+        </div>
+        <div id="right" class="column">
+            <ul class="concepts">
+            </ul>
+        </div>
+    </div>
+{{ end #content }}
+
+{{ block footer-center }}
+
+{{ end }}

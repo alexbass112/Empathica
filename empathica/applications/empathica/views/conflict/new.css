@@ -1,0 +1,20 @@
+form .label, form input, form textarea, form .invites {
+    float: left; margin: 5px !important;
+}
+form input[type='submit'] { float: right; }
+form .row, form .divider { clear: both; }
+form { overflow: hidden; }
+
+form .label { width: 150px; }
+form .divider { margin-left: 150px; padding: 15px;}
+form #NewConflict_description { width: 661px; height: 100px; }
+form #NewConflict_title,
+form #NewConflict_name1, form #NewConflict_name2,
+form #NewConflict_desc1, form #NewConflict_desc2 {
+    width: 323px;
+}
+form #NewConflict_desc1, form #NewConflict_desc2 { height: 100px; }
+form .invites { width: 329px; }
+
+form label { font-size: 18px; line-height: 27px; }
+form .comment { color: #999; font-size: 14px; line-height: 18px; margin-top: 5px; }

@@ -1,0 +1,62 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+    <style type="text/css">{{ include 'conflict/compromise.css'}}</style>
+{{ end #css }}
+
+{{ block js }}
+{{ end #js }}
+
+{{ block onReady }}
+    {{ include 'conflict/compromise.js' }}
+{{ end #onReady }}
+
+{{ block header-left }}
+    <li id="btnOverview"></li>
+{{ end #header-left }}
+{{ block content }}
+    <h1>Compromise</h1>
+    <h3>Suggested points of compromise in the conflict</h3>
+    <div id="nav" class="center horizontal">
+        <div id="prev" class="{{='disabled' if best_sol == 0 else ''}}"></div>
+        <button id="optimal" class="tooltip" title="Least Difference">Optimal Suggestion</button>
+        <div id="next" class="{{='disabled' if best_sol == len(ret_list) else ''}}"></div>
+    </div>
+    {{ 
+        def rating(n):
+            if n >= 80:
+                css = "best"
+            elif n < 80 and n >= 60:
+                css = "better"
+            elif n < 60 and n >= 40:
+                css = "content"
+            elif n < 40 and n >= 20:
+                css = "worse"
+            else:
+                css = "worst"
+            pass
+            return css
+    }}
+    {{ for i,x in enumerate(ret_list): }}
+    {{ 
+        optimal = True if i == best_sol else False
+        face1=rating(x[0])
+        face2=rating(x[1])
+    }}
+        <div id="groups-{{=i}}" class="conflict-groups {{='selected' if optimal else 'hidden'}}">
+            <h2 class="center">{{=group1}}<span class="{{=face1}} smiley"></span></h2>
+            <h2 class="center ampersand">&amp;</h2>
+            <h2 class="center">{{=group2}}<span class="{{=face2}} smiley"></span></h2>
+        </div>
+    {{ pass }}
+    <h3 id="caption">Suggested do's & dont's</h3>
+    {{ for i,x in enumerate(ret_list): }}
+        {{ optimal = True if i == best_sol else False }}
+        <ul id="suggestions-{{=i}}" class="suggestions {{='selected' if optimal else 'hidden'}}">
+        {{ for y in x[2]: }}
+            <li class="{{='goal' if y[1] else 'issue'}}">{{=y[0]}}</li>
+        {{ pass }}
+        </ul>
+    {{ pass }}
+    <div class="clear"></div>
+{{ end #content }}

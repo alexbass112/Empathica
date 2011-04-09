@@ -1,0 +1,15 @@
+You were invited to participate in a conflict, however an email address other than {{=invitee}} has attempted to claim the invite.
+
+If you wish to use {{=claimed}} as your Empathica account and wish to allow {{=claimed}} to accept the invite then please click the following link.
+
+If you do not wish to authorize {{=claimed}} to accept the invitation then please ignore this email.
+
+{{ if port == '80': }}
+http://{{=server}}{{=URL('conflict', 'claim_token', args=[invitetoken])}}
+{{ else: }}
+http://{{=server}}:{{=port}}{{=URL('conflict', 'claim_token', args=[invitetoken])}}
+{{ pass }}
+
+Thanks,
+
+Empathica derp

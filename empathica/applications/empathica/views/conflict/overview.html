@@ -1,0 +1,115 @@
+{{ extend 'layout.html' }}
+
+{{
+    # Page variables
+    groupL = groups[0]
+    groupR = groups[1]
+
+    summary = URL('conflict','summary',args=[conflict['id']])
+}}
+
+{{ block css }}
+    <style type="text/css">{{ include 'conflict/overview.css' }}</style>
+{{ end #css }}
+
+{{ block js }}
+    <script>{{ include 'conflict/overview.js' }}</script>
+{{ end #js }}
+
+{{ block content }}
+    <h1>{{=conflict['title']}}</h1>
+    <div id="description">
+        {{=conflict['description']}}
+    </div>
+    <!--<div id="conflict-groups">
+        <h2>{{=groupL['name']}}</h2>
+        <h2 id="ampersand">&amp;</h2>
+        <h2>{{=groupR['name']}}</h2>
+    </div>-->
+    <!--<h3>administrated by {{="Robbie D"}}</h3>-->
+    <!--
+    <div id="overview" class="section"> 
+        <div class="group left">
+            <h3 class="header">{{=groupL['name']}} (0)</h3>
+            <ul>
+                <li>Robbie D<span class="delete right">X</span></li>
+                <li>Robbie D<span class="delete right">X</span></li>
+            </ul>
+        </div>
+        <div class="group right">
+            <h3 class="header">{{=groupR['name']}} (0)</h3>
+        </div>
+        <div class="clear"></div>
+        <div id="invite"><span id="btnInvite" class="button">INVITE</span> more participants</div>
+    </div>
+   -->
+    <div class="cams left">
+        <h2 class="center">{{=groupL['name']}}</h2>
+        <div class="center description">{{=groupL['description']}}</div>
+        <div class="center">
+            {{ for cam in groupL['maps']: }}
+            <div class="cam">
+                <div class="thumbnail">
+                    <div class="image" style="background: url({{=cam['thumbnail'] or URL('static','images/no-thumbnail.png')}}) center center no-repeat;"></div>
+                    <span class="overlay horizontal">
+                        <div class="option" onclick="location.href='{{=URL('cam','counsellor',args=[cam['id']])}}'">
+                            <div id="counsellor" class="icon"></div>
+                            <h3>Counsellor</h3>
+                        </div>
+                        <div class="option" onclick="location.href='{{=URL('cam','edit',args=[cam['id']])}}'">
+                            <div id="editor" class="icon"></div>
+                            <h3>Editor</h3>
+                        </div>
+                        <div class="save" onclick="location.href='{{=URL('cam','download',args=[cam['id']])}}'"><div id="save-icon"></div>Download</div>
+                    </span>
+                    <h6 class="title">{{=cam['title']}}</h6>
+                </div>
+            </div>
+            {{ pass }}
+        </div>
+    </div>
+    <div class="cams right">
+        <h2 class="center">{{=groupR['name']}}</h2>
+        <div class="center description">{{=groupR['description']}}</div>
+        <div class="center">
+            {{ for cam in groupR['maps']: }}
+            <div class="cam">
+                <div class="thumbnail">
+                    <div class="image" style="background: url({{=cam['thumbnail'] or URL('static','images/no-thumbnail.png')}}) center center no-repeat;"></div>
+                    <span class="overlay horizontal">
+                        <div class="option" onclick="location.href='{{=URL('cam','counsellor',args=[cam['id']])}}'">
+                            <div id="counsellor" class="icon"></div>
+                            <h3>Counsellor</h3>
+                        </div>
+                        <div class="option" onclick="location.href='{{=URL('cam','edit',args=[cam['id']])}}'">
+                            <div id="editor" class="icon"></div>
+                            <h3>Editor</h3>
+                        </div>
+                        <div class="save" onclick="location.href='{{=URL('cam','download',args=[cam['id']])}}'"><div id="save-icon"></div>Download</div>
+                    </span>
+                    <h6 class="title">{{=cam['title']}}</h6>
+                </div>
+            </div>
+            {{ pass }}
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="controls">
+        <button onclick="location.href='{{=URL('correlate',args=[groupL['maps'][0]['id'],groupR['maps'][0]['id']])}}'" class="" title="Connect concepts by meaning">Correlate</button>
+        <button onclick="location.href='{{=URL('compare',args=[groupL['maps'][0]['id'],groupR['maps'][0]['id']])}}'" class="" title="Points of agreement and contention in the conflict">Compare</button>
+        <button onclick="location.href='{{=URL('compromise',args=[groupL['maps'][0]['id'],groupR['maps'][0]['id']])}}'" class="" title="Suggested points of compromise in the conflict">Compromise</button>
+    </div>
+    <!--
+    <div class="summary">
+        <div class="button">View Summary</div>
+    </div>
+    -->
+{{ end #content }}
+
+{{ block footer-left }}
+    <h6 class="timestamp" title="{{=conflict['date_modified']}}">Last modified </h6>
+{{ end #footer-left }}
+
+{{ block footer-right }}
+    <h6 class="timestamp" title="{{=conflict['date_created']}}">Created </h6>
+{{ end #footer-right }}

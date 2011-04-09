@@ -1,0 +1,81 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+    <style type="text/css">{{ include 'default/about.css' }}</style>
+{{ end #css }}
+
+{{ block onReady }}
+    {{ include 'default/about.js' }}
+{{ end #onReady }}
+
+{{ block header-left }}
+    <li id="btnHome"></li>
+{{ end }}
+
+{{ block content }}
+    <h1>About</h1>
+    <div id="nav">
+        <a href="#lnkEmpathica" class="scroll"><button>Empathica</button></a>
+        <a href="#lnkCAMs" class="scroll"><button>CAMs</button></a>
+        <a href="#lnkConflicts" class="scroll"><button>Conflicts</button></a>
+        <a href="#lnkEditor" class="scroll"><button>Editor</button></a>
+        <a href="#lnkCounsellor" class="scroll"><button>Counsellor</button></a>
+        <br />
+        <a href="#lnkCorrelate" class="scroll"><button>Correlate</button></a>
+        <a href="#lnkCompare" class="scroll"><button>Compare</button></a>
+        <a href="#lnkCompromise" class="scroll"><button>Compromise</button></a>
+        <a href="#lnkCredits" class="scroll"><button>Credits</button></a>
+    </div>
+    <div class="section">
+        <span id="lnkEmpathica"><h2>What is Empathica?</h2></span>
+        <p>Empathica is a tool used to graphically model conflicts with a simple and intuitive interface. Empathica is meant to be used academically, by researchers, and casually by others.</p>
+        <p>To cater to both types of users, Empathica offers two unique interfaces: a direct editing interface for the graphs, used by researchers and a Counsellor interface to elicit information from casual users.</p>
+    </div>
+    <div class="section">
+        <span id="lnkCAMs"><h2>What are Cognitive Affective Maps?</h2></span>
+        <p>Cognitive Affective Maps (CAMs) are specialized graphs used to model conflicts. These graphs were created by Paul Thagard, head of the Cognitive Science department at the University of Waterloo.</p>
+        <p>CAMs are made up of simple nodes and edges. Nodes can have differing valences based on how a person feels about a concept related to the conflict. Concepts are rated on a scale of 1 to 7, with a concept between 1-3 being negative (represented by a red hexagon), 4 being neutral (represented by a yellow rectangle) or between 5-7 being positive (represented by a green oval). Edges that connect nodes can be either excitory (solid line) or inhibitory (dashed line). An excitory link between nodes mean that one node being true makes the linked node more likely to be true, and an inhibitory connection between two nodes means that one node being true makes it more likely that the connected node will be false (e.g. a node named &quot;having cake&quot; will be negatively connected to &quot;eating cake&quot;).</p>
+    </div>
+    <div class="section">
+        <span id="lnkConflicts"><h2>Conflict Management</h2></span>
+        <p>Here on the Manage Conflicts page, you can see all your open and closed conflicts and you can open new conflicts. You also have the ability to view and edit open conflicts, view closed conflicts or close open conflicts.</p>
+        <p>On a conflict-level, you can invite other people to participate in a conflict, close an open conflict or view a conflict. These options appear when you hover over a conflict.</p>
+    </div>
+    <div class="section">
+        <span id="lnkOverview"><h2>Conflict Overview</h2></span>
+        <p>The Conflict Overview page shows you the CAMs associated with this conflict. If a CAM has not been been worked on, there will be a blank image with a "+" symbol, indicating the CAM has yet to be started. If a CAM has been completed or is in progress, there will be a snapshot of the current CAM.</p>
+        <p>On mouse over of a CAM snapshot, two options will appear: Counsellor and Edit. Each leads to its respective way to edit the graph. Once the CAMs are completed, you need to correlate the concepts in both graphs before you can proceed to see the compromise or the comparison.</p>
+    </div>
+    <div class="section">
+        <span id="lnkEditor"><h2>Graph Editor</h2></span>
+        <p>The graph editor is the most direct way to edit a CAM. The main manipulation tools reside in the interaction bar at the top of the page. The tools are as follows: Selection Tool, Add Concepts, Add Connections and Fit to Center.</p>
+        <p>When you're finished editing the CAM, click the Done button to save your progress and return to the Conflict Overview page. If you wish to change to the Counsellor interface, simply click the Counsellor button which also resides in the toolbar.</p>
+        <ul class="list">
+            <li>Renaming nodes is accomplished by highlighting a node with the Selection Tool and beginning to type.</li>
+            <li>Resize a node by selecting and clicking and dragging one of the squares on the corners.</li>
+            <li>Delete a node or edge by selecting it and hitting "Delete" on your keyboard.</li>
+            <li>Change the valence of a node or edge by selecting it and changing the value of the slider bar that appears under it.</li>
+        </ul>
+    </div>
+    <div class="section">
+        <span id="lnkCounsellor"><h2>Counsellor</h2></span>
+        <p>The Counsellor interface is designed to create CAMs through a natural language interface. Just input your message to the Counsellor and hit Enter to send it.</p>
+        <p>As in the Graph Editor, when you&apos;re done, click the Done button to save and return to the Conflict Overview page, and if you want to go to the graphical editor, click the Edit button</p>
+    </div>
+    <div class="section">
+        <span id="lnkCorrelate"><h2>Correlate</h2></span>
+        <p>The Correlate page is used to easily tie together concepts that are in both maps. To say that two concepts are correlated, simply click and drag a concept from one set on to the corresponding concept from the other set. If two concepts are correlated, but have opposite meanings (i.e. concepts that talk about the weather: "It's raining" and "It's sunny"), then once they are brought together, hover over the concepts in the middle column, and click the half-filled circle on the right. If you've made a mistake correlating concepts, simply hover over the correlated concepts and click the "X" button.</p>
+    </div>
+    <div class="section">
+        <span id="lnkCompare"><h2>Compare</h2></span>
+        <p>The Compare page will show the points of contention and the points of agreement in a conflict. To see more than the most important concepts, simply click the "Show More" button.</p>
+    </div>
+    <div class="section">
+        <span id="lnkCompromise"><h2>Compromise</h2></span>
+        <p>The Compromise page shows suggestions for the conflict by listing the concepts along with checks or x's, which indicate do's and dont's. Empathica generates many possible solutions to the conflict, but presents users with the optimal suggestion initially. To view other suggestions, click the arrows to either side of the "Optimal Suggestion" button. Click the "Optimal Suggestion" button at any time to return to the Optimal Suggestion.</p>
+    </div>
+    <div class="section">
+        <span id="lnkCredits"><h2>Credits</h2></span>
+        <p>Empathica is a Fourth-Year Design Project for the Software Engineering class of 2011. It was created for Paul Thagard, the director of Cognitive Sciences at the University of Waterloo by Fourth-Year Software Engineering students Alex Bass, Rob Disano, Ian Forneri, James Kendle and Corey Manning.</p>
+    </div>
+{{ end #content }}

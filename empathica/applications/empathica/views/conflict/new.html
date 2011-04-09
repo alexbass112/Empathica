@@ -1,0 +1,77 @@
+{{ extend 'layout.html' }}
+
+{{ block css }}
+    <link rel="stylesheet" href="{{=URL('static','css/jquery.TextboxList.css')}}" />
+    <link rel="stylesheet" href="{{=URL('static','css/jquery.validationEngine.css')}}" />
+    <style type="text/css">{{ include 'conflict/new.css' }}</style>
+{{ end #css }}
+
+{{ block js }}
+    <script src="{{=URL('static', 'js/jquery.GrowingInput.js')}}"></script>
+    <script src="{{=URL('static', 'js/jquery.TextboxList.js')}}"></script>
+    <script src="{{=URL('static', 'js/jquery.validationEngine.js')}}"></script>
+    <script src="{{=URL('static', 'js/jquery.validationEngine-en.js')}}"></script>
+{{ end #js }}
+
+{{ block onReady }}
+    {{ include 'conflict/new.js' }}
+{{ end #onReady }}
+
+{{ block content }}
+    <h1>New Conflict</h1>
+    <h3>Fill out the form and press <button onclick="document.forms['NewConflict'].submit();">CREATE</button> when finished</h3>
+    {{=form.custom.begin}}
+        <div class="row">
+            <div class="label">
+                <label>{{=form.custom.label.title}}</label>
+            </div>
+            {{=form.custom.widget.title}}
+        </div>
+        <div class="row">
+            <div class="label">
+                <label>{{=form.custom.label.description}}</label>
+                <div class="comment">Provide a brief description of the conflict</div>
+            </div>
+            {{=form.custom.widget.description}}
+        </div>
+        <div class="divider">
+            <div>Every conflict has 2 disputants</div>
+            <div class="comment">A conflict can be modelled between people, groups, fictional characters, etc.</div>
+        </div>
+        <div class="row">
+            <div class="label"><label>Disputants</label></div>
+            {{=form.custom.widget.name1}}{{=form.custom.widget.name2}}
+        </div>
+        <div class="row">
+            <div class="label">
+                <label>Descriptions</label>
+                <div class="comment">Provide a brief discription of each disputant</div>
+            </div>
+            {{=form.custom.widget.desc1}}{{=form.custom.widget.desc2}}
+        </div>
+        <div id="invite" style="{{='display: visible' if form.errors and (request.vars.users1 or request.vars.users2) else 'display: none' }}">
+            <div class="divider">
+                <div>Enter e-mail addresses of people you would like to invite:</div>
+                <div class="comment">
+                    <ul style="list-style-type: square; margin-left: 20px">
+                        <li>Participants are grouped together to represent a disputant</li>
+                        <li>You are the admin of this conflict and can contribute to both groups</li>
+                        <li>If you do not wish to identify yourself with one of the groups, then remove your e-mail</li>
+                        <li>You can add more people at any time</li>
+                    </ul>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="label">
+                    <label>Participants</label>
+                </div>
+                <div class="invites">{{=form.custom.widget.users1}}</div>
+                <div class="invites">{{=form.custom.widget.users2}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <input type="button" id="btnAddPeople" value="Add People" tabindex=7 style="{{='display: none' if form.errors and (request.vars.users1 or request.vars.users2) else '' }}" />
+            {{=form.custom.submit}}
+        </div>
+    {{=form.custom.end}}
+{{ end #content }}

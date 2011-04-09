@@ -1,0 +1,20 @@
+You've been invited by {{=inviter}} to participate in a Conflict Resolution session on Empathica.
+Click the following link to log in and accept this invitation.
+{{ if port == '80': }}
+http://{{=server}}{{=URL('conflict', 'claim_token', args=[invitetoken])}}
+{{ else: }}
+http://{{=server}}:{{=port}}{{=URL('conflict', 'claim_token', args=[invitetoken])}}
+{{ pass }}
+
+Thanks,
+
+[logo][link]Empathica[/link][/logo]
+
+University of Waterloo
+Waterloo, Ontario
+N2L 3G1
+---------------------------------------------------------
+This is an automatically generated email, do not reply to this message.
+To unsubscribe click [here].
+#########################################################
+
