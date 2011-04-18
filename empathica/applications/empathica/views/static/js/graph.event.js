@@ -1,3 +1,9 @@
+/** 
+    Mouse and keyboard event handlers
+    
+    Author:         Alex Bass
+    Last Updated:   2011-04-17
+ **/ 
 
 // Keyboard keyCodes
 var KEY = {
@@ -11,10 +17,12 @@ var KEY = {
     SAVE:           83, // S
     CTRL:           17,
     SHIFT:          16,
-    ALT:            18,
-    RESTORE:        84
+    ALT:            18
 };
 
+/**
+    Initialize event listeners and some other handlers
+**/
 Graph.prototype.initEventListeners = function() {
     // HTML5 canvas elements
     var canvas = document.getElementById(this.canvasName);
@@ -30,34 +38,16 @@ Graph.prototype.initEventListeners = function() {
     this.socket.onclose = this.socketOnClose;
     {{ pass }}
     
-    // Would be nice but fails in Firefox 3.6 right now
-    // var emd = this.eventMouseDown.bind(this);
-    // canvas.addEventListener("mousedown", emd, false);
-    
-    // var emu = this.eventMouseUp.bind(this);
-    // canvas.addEventListener("mouseup", emu, false);
-    
-    // var emm = this.eventMouseMove.bind(this);
-    // canvas.addEventListener("mousemove", emm, false);
-    
-    // var emc = this.eventMouseClick.bind(this);
-    // canvas.addEventListener("click", emc, false);
-    
     // Add the canvas and context to the graph's properties
     this.canvas = canvas;
     this.ctx = ctx;
     
     canvas.addEventListener("mousedown", this.eventMouseDown, false);
-
     canvas.addEventListener("mouseup", this.eventMouseUp, false);
-    
     canvas.addEventListener("mousemove", this.eventMouseMove, false);
-    
     canvas.addEventListener("dblclick", this.eventMouseDoubleClick, false);
-    
     canvas.addEventListener("mousewheel", this.eventMouseWheel, false); 
     canvas.addEventListener("DOMMouseScroll", this.eventMouseWheel, false); 
-    
     window.addEventListener("keydown", this.eventKeyDown, false); 
     
     var textEditor = document.getElementById('textEditInput');
@@ -84,24 +74,16 @@ Graph.prototype.initEventListeners = function() {
     document.oncontextmenu = function() {
         return false;
     };
-    
-    //this.inputModeState = this.stateDefault;
-    
-    // $('body').focus(function() {
-        // if (g.interactionMode == g.renamingNode) {
-            //textEditInput').focus();
-        // }
-    // });
 }
 
-/*
-    Mac del key: 8
- */
-
+/**
+    Handle key presses
+**/
 Graph.prototype.eventKeyDown = function(e) {
     e = e || window.event;
     var code = e.keyCode || e.which;
     
+    // Uncomment this to debug addition of keys etc. 
     //debugOut(code);
     
     if (e.ctrlKey && KEY.UNDO == code) {   // Ctrl+ Z
@@ -113,31 +95,25 @@ Graph.prototype.eventKeyDown = function(e) {
     }
     
     if (g.inputModeState == g.stateDefault) {
-        
-        // HOTKEYS
-        /*if (13 == code || 27 == code) {   // enter
-            return false;
-        } */
-        
         if (g.interactionMode != g.renamingNode) {
             if ( KEY.BACKSPACE == code ) {
                 return false;
             }
-            if ( KEY.ADD_NODES == code ) {              // N
+            if ( KEY.ADD_NODES == code ) {         
                 $('#btnAddConcepts').toolbarButton('toggle');
                 return;
-            } else if (KEY.ADD_EDGES == code ) {       // E
+            } else if (KEY.ADD_EDGES == code ) {      
                 $('#btnAddConnections').toolbarButton('toggle');
                 return;
             } 
         }
         
         if (g.selectedObject instanceof Node) {
-            if (KEY.DELETE == code && g.interactionMode != g.renamingNode) { // delete
+            if (KEY.DELETE == code && g.interactionMode != g.renamingNode) {
                 g.deleteNode(g.selectedObject.id);
                 g.interactionMode = g.draggingGraph;
                 g.hideValenceSelector();
-            } else if (KEY.ESCAPE == code) {        // Escape
+            } else if (KEY.ESCAPE == code) {        
                 $('#btnSelect').toolbarButton('toggle');
             } else if (KEY.ENTER == code || KEY.CTRL == code || KEY.SHIFT == code || KEY.ALT == code) {
                 // NO-OP
@@ -150,7 +126,7 @@ Graph.prototype.eventKeyDown = function(e) {
                 g.deleteEdge(g.selectedObject.id);
                 g.interactionMode = g.draggingGraph;
                 g.hideValenceSelector();
-            } else if (KEY.ESCAPE == code) {        // Escape
+            } else if (KEY.ESCAPE == code) {        
                 $('#btnSelect').toolbarButton('toggle');
                 g.selectedObject = {};
             }
@@ -164,6 +140,9 @@ Graph.prototype.eventKeyDown = function(e) {
     }
 }
 
+/**
+    Special keyboard handler used by the Node renaming text field
+**/ 
 Graph.prototype.nodeRenameHandler = function(e) {
     e = e || window.event;
 
@@ -180,7 +159,7 @@ Graph.prototype.nodeRenameHandler = function(e) {
     } else {
     }
     
-    if (KEY.ENTER == code) {           // Enter
+    if (KEY.ENTER == code) {           
         var text = $.trim($('#textEditInput').val());
         if (text == '') {
             g.hideTextEditor();
@@ -205,23 +184,17 @@ Graph.prototype.nodeRenameHandler = function(e) {
         
         var n = g.selectedObject;
         
-        // Reset state to default
-        //debugOut("canvas dif css and data");
-        
-        // TODO: toggle button appearance
-        //g.setState(g.stateDefault);
         $('#btnSelect').toolbarButton('toggle');
         
         g.selectedObject = n;
         g.selectedObject.selected = true;
-        //debugOut(n);
         
         g.repaint();
         
         g.showValenceSelector(g.selectedObject);
         g.positionSlider(g.selectedObject);
         g.interactionMode = g.draggingNode;
-    } else if (KEY.ESCAPE == code) {    // Escape
+    } else if (KEY.ESCAPE == code) {   
         g.hideTextEditor();
         if (g.selectedObject.newNode) {
             // Escaping out of first naming - delete node
@@ -238,7 +211,9 @@ Graph.prototype.nodeRenameHandler = function(e) {
     return false;
 }
 
-// Handle mouse movements
+/**
+    Handle mouse movements
+**/
 Graph.prototype.eventMouseMove = function(e) {
     
     var coords = g.getCursorPosition(e);
@@ -246,9 +221,8 @@ Graph.prototype.eventMouseMove = function(e) {
     var my = coords[1];
     
     if (g.inputModeState == g.stateDefault) {
-        //var g = this;
-        var canvas = document.getElementById(g.canvasName);
-        var ctx = canvas.getContext("2d");
+        var canvas = g.canvas;
+        var ctx = g.ctx;
         
         // Only move shapes if the mouse is pressed
         if (g.mouseDown) {
@@ -256,7 +230,7 @@ Graph.prototype.eventMouseMove = function(e) {
             var xOffset = mx - g.prevX;
             var yOffset = my - g.prevY;
             if (g.interactionMode == g.renamingNode) {
-                // ignore clicks on the graph while renaming node
+                // ignore movement on the graph while renaming node
                 return;
             } else if (g.interactionMode == g.draggingNode) {
                 // If there is a node currently selected, move it
@@ -266,9 +240,8 @@ Graph.prototype.eventMouseMove = function(e) {
                     g.resizedOrMoved = true;
                 } 
                 g.positionSlider(g.selectedObject);
-                //g.updateDivPosition(g.selectedObject);
             } else if (g.interactionMode == g.resizingNode) {
-                if (typeof(g.selectedObject.id) == "undefined") {
+                if (!(g.selectedObject instanceof Node)) {
                     debugOut("ERROR: Resizing a node which does not exist");
                     return;
                 }
@@ -339,7 +312,6 @@ Graph.prototype.eventMouseMove = function(e) {
                     var node = g.nodes[i];
                     node.dim.x += xOffset;
                     node.dim.y += yOffset;
-                    //g.updateDivPosition(node);
                 }
                 // Update edge midpoints
                 for (var e in g.edges) {
@@ -352,6 +324,7 @@ Graph.prototype.eventMouseMove = function(e) {
                     }
                 }
                 
+                // Update total distance moved before mouse up
                 g.totalX += xOffset;
                 g.totalY += yOffset;
                 
@@ -415,10 +388,12 @@ Graph.prototype.eventMouseMove = function(e) {
         g.repaint(g.addingEdgeFromNode);
         
     } else if (g.inputModeState == g.stateAddingComments) {
-        //g.mouseOverHandler(e);
     }
 }
 
+/**
+    Helper function to set/unset objects cursor is hovering over
+**/
 Graph.prototype.mouseOverHandler = function(e) {
     var coords = g.getCursorPosition(e);
     var mx = coords[0];
@@ -437,6 +412,9 @@ Graph.prototype.mouseOverHandler = function(e) {
     }
 }
 
+/**
+   Handle mouse up events
+**/
 Graph.prototype.eventMouseUp = function(e) {
     if (g.inputModeState == g.stateDefault) {
         
@@ -446,7 +424,6 @@ Graph.prototype.eventMouseUp = function(e) {
             g.repaint();
         }
         
-        //var g = this;
         var canvas = g.canvas;
         var ctx = g.ctx;
         g.mouseDown = false;
@@ -469,16 +446,10 @@ Graph.prototype.eventMouseUp = function(e) {
                 }
             } else {
                 // Moved entire graph
-                // TODO, possibly
                 var nodeList = {};
                 for (var i in g.nodes) {
                     var n = g.nodes[i];
                     nodeList[n.id] = {'x': n.dim.x, 'y': n.dim.y, 'width': n.dim.width, 'height': n.dim.height};
-                }
-                
-                for (var i in g.edges) {
-                    var e = g.edges[i];
-                    
                 }
                 
                 g.pushToUndo(new Command(g.cmdNode, "", g.cmdGraphMove, "", nodeList));
@@ -489,6 +460,7 @@ Graph.prototype.eventMouseUp = function(e) {
             }
         }
         
+        // Reset everything for next mousedown event
         g.resizedOrMoved = false;
         g.totalX = 0;
         g.totalY = 0;
@@ -501,9 +473,11 @@ Graph.prototype.eventMouseUp = function(e) {
     } else if (g.inputModeState == g.stateAddingComments) {
         
     }
-    
 }
 
+/**
+    Handle mouse down events
+**/
 Graph.prototype.eventMouseDown = function(e) {
     var coords = g.getCursorPosition(e);
     var mx = coords[0];
@@ -627,91 +601,6 @@ Graph.prototype.eventMouseDown = function(e) {
             g.hideValenceSelector();
         }
         
-        /*var pixColour = g.getPixelColour(ctx, mx, my);
-        
-        if (g.isClickOnHandle(pixColour)) {
-            newNode = g.handle;
-            g.resizingDirection = pixColour;
-        }
-        
-        // Check what we have selected
-        if (newNode == g.notANode) {
-            // Clicked on graph or edge
-            // First - deselect currently selected node if it exists
-            if (g.selectedObject instanceof Node) {
-                g.selectedObject.selected = false;
-                g.selectedObject.highLight = g.lowColour;
-                g.selectedObject = new Object();
-                g.hideValenceSelector();
-            }
-            
-            var clickedEdge = g.getEdgeUnderPointer(mx, my);
-            if (clickedEdge == g.notAnEdge) {
-                g.interactionMode = g.draggingGraph;
-                g.selectedObject.selected = false;
-                g.selectedObject.highLight = g.lowColour;
-                g.selectedObject = new Object();
-                g.hideValenceSelector();
-            } else {
-                g.interactionMode = g.pickedEdge;
-                //debugOut("PICKED EDGE!!!!");
-                
-                if (typeof(g.selectedObject.id) != "undefined") {
-                    g.selectedObject.selected = false;
-                    g.hideValenceSelector();
-                }
-                clickedEdge.selected = true;
-                g.selectedObject = clickedEdge;
-                
-                g.showValenceSelector(g.selectedObject, mx, my);
-            }
-            
-            //g.interactionMode = g.draggingGraph;
-        } else if (newNode == g.handle) {
-            // Clicked on a selection handle
-            g.interactionMode = g.resizingNode;
-            //g.oldDim = g.selectedObject.dim;
-            g.setOldDim(g.selectedObject.dim);
-        } else {
-            // We have selected a node!
-            // Deselect edge first, if necessary 
-            if (g.selectedObject instanceof Edge) {
-                g.selectedObject.selected = false;
-                g.selectedObject = new Object();
-            }
-            newNode.selected = true;
-            newNode.highLight = g.highColour;
-            g.selectedObject = newNode;
-            g.setOldDim(g.selectedObject.dim);
-            g.interactionMode = g.draggingNode;
-            // Check if we have selected the already selected node
-            if (oldNode != g.selectedObject && oldNode instanceof Node) {
-                oldNode.selected = false;
-                oldNode.highLight = g.lowColour;
-                
-                if (oldNode.id != g.selectedObject.id) {
-                    g.hideValenceSelector();
-                    g.showValenceSelector(g.selectedObject);
-                } 
-            } 
-            // Push the new node to the front of the draw order
-            for(var i = 0; i < g.drawOrder.length; i++) {
-                if (g.drawOrder[i] == g.selectedObject.id) {
-                    var ar1 = g.drawOrder.slice(0,i);
-                    var ar2 = g.drawOrder.slice(i+1,g.drawOrder.length);
-                    ar1 = ar1.concat(ar2);
-                    ar1.push(g.drawOrder[i]);
-                    g.drawOrder = ar1;
-                    break;
-                }
-            }
-            
-            // Show the valence selector
-            g.showValenceSelector(g.selectedObject);
-            
-        }
-        */
-        
         g.repaint();
     } else if (g.inputModeState == g.stateAddingNodes) {
         if (e.button == 2) {
@@ -726,13 +615,12 @@ Graph.prototype.eventMouseDown = function(e) {
     } else if (g.inputModeState == g.stateAddingEdges) {
         if (e.button == 2) {
             $("#btnSelect").toolbarButton('toggle');
-            //g.setState(g.stateDefault);
             return;
         }
         var node = g.getNodeUnderPointer(mx, my);
         if (node == g.notANode) {
             // Check if its a complex edge and we've already added one node
-            if (g.complexEdge && g.interactionMode == g.addingEdgeAddedOne) {
+            if (g.allowComplexEdge && g.interactionMode == g.addingEdgeAddedOne) {
                 g.pointArray.push(new Point(mx, my));
                 debugOut('pushed point: ' + mx + ', ' + my);
             }
@@ -774,6 +662,9 @@ Graph.prototype.eventMouseDown = function(e) {
     
 }
 
+/**
+    Handle double click events
+**/
 Graph.prototype.eventMouseDoubleClick = function(e) {
     if (g.inputModeState == g.stateDefault && e.button == 0) {
         if (g.selectedObject instanceof Node) {
@@ -783,6 +674,13 @@ Graph.prototype.eventMouseDoubleClick = function(e) {
     }
 }
 
+/**
+    Handle mouse wheel events. 
+    
+    Note: this method is not currently used and is retained for posterity. 
+    Can be used as a suggested future implementation for zooming between different levels
+    of a CAM. 
+**/
 Graph.prototype.eventMouseWheel = function (e) {
     return true;
     //debugOut(e);
@@ -828,6 +726,9 @@ Graph.prototype.eventMouseWheel = function (e) {
     g.repaint();
 }
 
+/**
+    Helper method to save the node dimensions before mousemove
+**/
 Graph.prototype.setOldDim = function (dim) {
     var d = {};
     d.x = dim.x;
@@ -835,21 +736,4 @@ Graph.prototype.setOldDim = function (dim) {
     d.width = dim.width;
     d.height = dim.height;
     g.oldDim = d;
-}
-
-Graph.prototype.brightenObject = function (id) {
-    g.nodes[id].highLight = g.nodes[id].highLight + g.lightChange;
-    if (g.nodes[id].highLight > g.highColour) {
-        g.nodes[id].highLight = g.highColour;
-    }
-    g.repaint(g.nodes[id]);
-}
-
-Graph.prototype.darkenObject = function (id) {
-    g.nodes[id].highLight = g.nodes[id].highLight - g.lightChange;
-    if (g.nodes[id].highLight < g.lowColour) {
-        g.nodes[id].highLight = g.lowColour;
-    }
-    //g.repaint();
-    g.repaint(g.nodes[id]);
 }

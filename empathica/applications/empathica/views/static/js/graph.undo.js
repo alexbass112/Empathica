@@ -1,22 +1,25 @@
-/*
-    Undo / Redo
-*/
+/** 
+    This file contains methods related to saving and Undo/Redo functionality
+    (partially implemented)
+    
+    Author:         Alex Bass
+    Last Updated:   2011-04-17
+ **/ 
 
 /*
   Data structure to aggregate commands into database updates
 */
-//var cmdHash = {};
 function CmdHash () {
     this.hash = {};
     return this;
 }
 
-/*
+/**
     Store a new value for: 
     CmdHash[objType][objId][property] = newValue
     
     As values are pushed, they will erase previous entries
-*/
+**/
 CmdHash.prototype.addCmd = function(cmd) {
     // First, check if the entry exists and create if necessary
     if (this.hash[cmd.objType] === undefined) {
@@ -29,7 +32,9 @@ CmdHash.prototype.addCmd = function(cmd) {
     this.hash[cmd.objType][cmd.objId][cmd.property] = cmd.newValue;
 }
 
-
+/**
+    Object representing an operation to be saved to the database
+**/
 function Command (objType, objId, property, oldValue, newValue) {
     this.objType = objType;
     this.objId = objId;
@@ -38,6 +43,9 @@ function Command (objType, objId, property, oldValue, newValue) {
     this.newValue = newValue;
 }
 
+/**
+    Push a command onto the undo stack
+**/ 
 Graph.prototype.pushToUndo = function(cmd) {
     this.undoStack.push(cmd);
     
@@ -45,12 +53,11 @@ Graph.prototype.pushToUndo = function(cmd) {
     if (this.undoStack.length > this.undoStackSize * 2) {
         this.squishAndSave(this.undoStackSize);
     }
-    
-    //debugOut(cmd.newValue);
 }
 
-
-// Remove all commands with the specified id
+/**
+    Remove all commands with the specified id from the undo stack
+**/
 Graph.prototype.removeFromUndoById = function(nid) {
     if (!nid) {
         return;
@@ -72,12 +79,12 @@ Graph.prototype.removeFromUndoById = function(nid) {
     }
 }
 
-/*
+/**
     Remove <count> commands from the start of the undo stack
     and insert them to the CmdHash for aggregation
     
     If called without count, then save everything from the stack
-*/
+**/
 Graph.prototype.squishAndSave = function(count) {
     var n = count;
     if (!count) {
@@ -109,12 +116,8 @@ Graph.prototype.squishAndSave = function(count) {
             }
         } else {
             hash.addCmd(cmd);
-            //debugOut('squishy: ');
-            //debugOut(cmd.newValue);
         }
     }
-    
-    //debugOut(hash);
     
     // Save thumbnail 
     var thumb = this.createImage(true);
@@ -182,7 +185,10 @@ Graph.prototype.saveHash = function(cmdHash) {
     }
 }
 
-// Undo function - called by Ctrl-Z and UI?
+/**
+    Undo function - called by Ctrl-Z 
+    This feature is not currently fully supported, but works for some operations
+**/
 Graph.prototype.undo = function() {
     var cmd = this.undoStack.pop();
     
@@ -239,7 +245,9 @@ Graph.prototype.undo = function() {
     this.redoStack.push(cmd);
 }
 
-// Redo function - called by Ctrl-Z and UI?
+/**
+    Redo - currently not called (TODO)
+**/
 Graph.prototype.redo = function() {
     var cmd = this.redoStack.pop();
     

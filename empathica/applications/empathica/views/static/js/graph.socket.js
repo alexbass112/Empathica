@@ -1,5 +1,16 @@
-// Google app engine socket calls
-
+/** 
+    Google app engine socket calls. 
+    
+    GAE sockets allow different users working on the same Map to 
+    receive each other's updates in real time. 
+    
+    TODO: in order to use this effectively, some changes need to be
+    made to the saving algorithm - instead of batching save ops, save 
+    each change to the database as soon as it is performed. 
+    
+    Author:         James Kendle
+    Last Updated:   2011-04-17
+ **/ 
 Graph.prototype.socketOnOpened = function()
 {
     debugOut("Socket Opened");

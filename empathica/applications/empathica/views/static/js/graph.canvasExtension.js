@@ -1,3 +1,14 @@
+/** 
+    Extension to the HTML5 Canvas object adding support for dashed lines
+    based on a start and end point, and a provided to specify line/gap
+    intervals. 
+    
+    Source found at http://davidowens.wordpress.com/2010/09/07/html-5-canvas-and-dashed-lines/
+    
+    Author:         David Owens II
+    Last Updated:   2010-09-07
+ **/ 
+
 CanvasRenderingContext2D.prototype.dashedLineTo = function (fromX, fromY, toX, toY, pattern) {
   // Our growth rate for our line can be one of the following:
   //   (+,+), (+,-), (-,+), (-,-)

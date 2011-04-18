@@ -1,4 +1,18 @@
-// DB calls
+/** 
+    Database calls made by the Graph library. Calls are made using the 
+    jQuery library. URLs for the AJAX calls are constructed for us by web2py. 
+    
+    In the case of a Database error (authentication or other unknown error)
+    the library notes it. If this happens, the user will also be prompted with 
+    the stringified JSON text of the graph that they can later use to recover 
+    the graph in case of a DB crash (TODO). 
+    
+    In debug mode (set in graph.util.js) each call prints its URL to the 
+    console before invoking the AJAX call. 
+    
+    Author:         Alex Bass
+    Last Updated:   2011-04-17
+ **/ 
 
 // TODO: 
 /*$.getJSON(
@@ -15,7 +29,9 @@
        ).error(function(json) {});
 */
 
-// Add suggested node
+/**
+    Add a node from the Node suggestion interface to this Graph's Map in the DB
+**/
 Graph.prototype.db_addSuggestedNode = function(node) {
     if (! (node instanceof Node) ) {
         return;
@@ -39,8 +55,6 @@ Graph.prototype.db_addSuggestedNode = function(node) {
             if (typeof(data.success) != "undefined") {
                 if (data.success == true) {
                     debugOut('success true!');
-                    // Update node id in all instances of the node
-                    // Graph.nodes hash
                     var node = g.nodes[data.token];
                     node.newNode = false;
                     node.id = data.node_id;
@@ -82,7 +96,9 @@ Graph.prototype.db_addSuggestedNode = function(node) {
     });
 }
 
-// Add node 
+/**
+    Add a new node on the Graph to the DB
+**/
 Graph.prototype.db_addNode = function(node) {
     if (! (node instanceof Node) ) {
         return;
@@ -153,6 +169,9 @@ Graph.prototype.db_addNode = function(node) {
     });
 }
 
+/**
+    Add a new Edge on the graph to the DB
+**/
 Graph.prototype.db_addEdge = function(edge) {
     if (! (edge instanceof Edge)) {
         debugOut('Tried to add an edge that is not an edge');
@@ -180,8 +199,6 @@ Graph.prototype.db_addEdge = function(edge) {
         // Validate data
         if (typeof(data.success) != "undefined") {
             if (data.success == true) {
-                // Update node id in all instances of the node
-                // Graph.nodes hash
                 var edge = g.edges[data.token];
                 edge.newEdge = false;
                 edge.id = data.id;
@@ -216,6 +233,9 @@ Graph.prototype.db_addEdge = function(edge) {
     });
 }
 
+/**
+    Delete a node from the DB once it has been removed from the Graph
+**/
 Graph.prototype.db_deleteNode = function(node) {
     if (! (node instanceof Node) ) {
         debugOut('Tried to delete unknown object from database');
@@ -253,6 +273,9 @@ Graph.prototype.db_deleteNode = function(node) {
     });
 }
 
+/**
+    Delete an Edge from the DB once it has been removed from the Graph
+**/
 Graph.prototype.db_deleteEdge = function(edge) {
     if (! (edge instanceof Edge) ) {
         debugOut('Tried to delete unknown object from database');
@@ -289,6 +312,9 @@ Graph.prototype.db_deleteEdge = function(edge) {
     });
 }
 
+/**
+    Change the valence of an Edge in the DB
+**/ 
 Graph.prototype.db_editEdgeValence = function(eid, newValence) {
     
     var url = "{{=URL('call/json/edit_connection_valence')}}";
@@ -322,6 +348,10 @@ Graph.prototype.db_editEdgeValence = function(eid, newValence) {
     });
 }
 
+/**
+    For complex edges consisting of a number of intermediary points, change the
+    positions of those points stored in the DB
+**/
 Graph.prototype.db_editEdgeInnerPoints = function(edge) {
     // Construct inner points string
     var stringInnerPoints = JSON.stringify(edge.innerPoints);
@@ -360,11 +390,10 @@ Graph.prototype.db_editEdgeInnerPoints = function(edge) {
         
 }
 
+/**
+    Change the name (text) of a node in the DB
+**/ 
 Graph.prototype.db_renameNode = function(nid, newName) {
-    //var sarr = newName.split(' ');
-    //newName = sarr.join('%20');
-    //var url = this.db_methodPath + 'rename_node/' + this.mapID + '/' + nid + '/' + newName;
-    //debugOut('db_renameNode url: ' + url);
     var url = "{{=URL('call/json/rename_node')}}";
     debugOut(url);
     
@@ -397,6 +426,9 @@ Graph.prototype.db_renameNode = function(nid, newName) {
     });
 }
 
+/**
+    Change the valence of a Node in the DB
+**/
 Graph.prototype.db_editNodeValence = function(nid, newValence) {
     
     var url = "{{=URL('call/json/edit_node_valence')}}";
@@ -431,6 +463,9 @@ Graph.prototype.db_editNodeValence = function(nid, newValence) {
     
 }
 
+/**
+    Change the size/position of a Node in the DB
+**/
 Graph.prototype.db_editNodeDim = function(nid, dim) {
     
     var url = "{{=URL('call/json/edit_node_dim')}}";
@@ -468,6 +503,9 @@ Graph.prototype.db_editNodeDim = function(nid, dim) {
     });
 }
 
+/**
+    Retrieve data for this Map from the DB and populate the Graph
+**/
 Graph.prototype.db_getGraphData = function() {
     
     var url = "{{=URL('call/json/get_graph_data')}}";
@@ -483,20 +521,20 @@ Graph.prototype.db_getGraphData = function() {
         debugOut(data);
         if (typeof(data.success) != "undefined") {
             if (data.success) {
-                //g.nodes = data.mapdata.nodes;
-                //g.edges = data.mapdata.edges;
                 var layoutAfter = false;
                 for (var id in data.mapdata.nodes) {
                     var record = data.mapdata.nodes[id];
                     var text = record.text;
+                    // Have to create new Node objects from returned data
                     var n = new Node(text, record.valence);
                     n.dim = record.dim;
+                    // If the positions of a node are null, this means it was
+                    // inserted by the chatbot, so we need to re-layout the Graph
                     if (!n.dim.x || n.dim.x == null) {
                         layoutAfter = true;
                     }
                     n.selected = false;
                     n.newNode = false;
-                    //n.highLight = g.lowColour;
                     n.id = id;
                     g.nodes[id] = n;
                     g.drawOrder.push(id);
@@ -508,6 +546,7 @@ Graph.prototype.db_getGraphData = function() {
                 
                 for (var id in data.mapdata.edges) {
                     var record = data.mapdata.edges[id];
+                    // Have to create a new Edge object from returned data
                     var e = new Edge();
                     e.from = record.from;
                     e.to = record.to;
@@ -541,19 +580,19 @@ Graph.prototype.db_getGraphData = function() {
                 g.repaint();
             } else {
                 // ERROR
-                //g.savingError = true;
             }
         } else {
             debugOut('DB returned unexpected result');
-            //g.savingError = true;
         }
         g.decrementPendingSaves();
     }).error(function(data) {
-        //g.savingError = true;
         g.decrementPendingSaves();
     });
 }
 
+/**
+    Save the graph image (either full image or thumbnail) to the DB
+**/ 
 Graph.prototype.db_saveImage = function(imgdata, isThumbnail) {
     this.incrementPendingSaves();
     var url = "{{=URL('call/json/set_png')}}";
@@ -587,6 +626,9 @@ Graph.prototype.db_saveImage = function(imgdata, isThumbnail) {
     });
 }
 
+/**
+    Save current theme to the DB
+**/
 Graph.prototype.db_saveTheme = function() {
     this.incrementPendingSaves();
     var url = "{{=URL('call/json/set_theme')}}";
@@ -615,6 +657,12 @@ Graph.prototype.db_saveTheme = function() {
     });
 }
 
+/**
+    incrementPendingSaves and decrementPendingSaves are used to keep track
+    of the AJAX calls made. 
+    
+    TODO: this can probably be handled by jQuery in the future. 
+**/
 Graph.prototype.incrementPendingSaves = function() {
     this.pendingSaves += 1;
 }
@@ -623,8 +671,10 @@ Graph.prototype.decrementPendingSaves = function() {
     this.pendingSaves -= 1;
     
     if (this.pendingSaves == 0) {
+        // Clear the "Saving" message from the screen and redirect if necessary
         $.unblockUI({
             onUnblock: function() {
+                // TODO: this is the restoration logic
                 /*if (g.savingError) {
                     var saveString = g.createSaveString();
                     debugOut(saveString);

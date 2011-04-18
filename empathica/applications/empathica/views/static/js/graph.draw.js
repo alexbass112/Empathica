@@ -1,12 +1,19 @@
-/*
-    Draw the graph and edges to the canvas 
-*/
-Graph.prototype.draw = function() {
-    // HTML5 canvas elements
-    var canvas = document.getElementById(this.canvasName);
-    var ctx = canvas.getContext("2d");
+/** 
+    Functions used to draw Graph contents to the Canvas context
     
-    // TODO: remove the added height
+    Author:         Alex Bass
+    Last Updated:   2011-04-17
+ **/ 
+
+/**
+    Main function called to draw the nodes and edges
+**/
+Graph.prototype.draw = function() {
+    var canvas = this.canvas;
+    var ctx = this.ctx;
+    
+    // TODO: remove the added height these are currently put in to prevent
+    // the canvas from showing scrollbars
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight - 1;
 
@@ -21,11 +28,11 @@ Graph.prototype.draw = function() {
     }
 }
 
-/*
-    Draw the nodes
-*/
+/**
+    Draw the Nodes
+**/
 Graph.prototype.drawNodes = function(ctx) {
-    // Draw based on the draw order
+    // Draw based on the draw order stack
     for (var i = 0; i < this.drawOrder.length; i++) {
         var node = this.nodes[this.drawOrder[i]];
         this.drawNode(ctx, node);
@@ -33,6 +40,9 @@ Graph.prototype.drawNodes = function(ctx) {
     
 }
 
+/**
+    Draw an individual Node to the context
+**/
 Graph.prototype.drawNode = function(ctx, node) {
     // Draw the paths for the shapes
     if (node.valence > this.neutralValence) {
@@ -82,9 +92,9 @@ Graph.prototype.drawNode = function(ctx, node) {
     }
 }
 
-/* 
-    Draw the edges
-*/
+/** 
+    Draw the Edges
+**/
 Graph.prototype.drawEdges = function(ctx) {
     ctx.strokeStyle = this.edgeColour;
     ctx.lineCap = this.edgeLineCap;
@@ -94,8 +104,10 @@ Graph.prototype.drawEdges = function(ctx) {
     }
 }
 
+/**
+    Draw an individual Edge to the context
+**/
 Graph.prototype.drawEdge = function(ctx, edge) {
-    //ctx.strokeStyle = this.edgeColour;
     ctx.lineCap = this.edgeLineCap;
     
     var from = this.nodes[edge.from];
@@ -112,7 +124,6 @@ Graph.prototype.drawEdge = function(ctx, edge) {
         }
         if (edge.innerPoints && edge.innerPoints.length > 0) {
             var pts = edge.innerPoints;
-            //debugOut(pts);
             
             var test1 = from.dim.x;
             var test2 = pts[0].x;
@@ -142,7 +153,6 @@ Graph.prototype.drawEdge = function(ctx, edge) {
             ctx.lineTo(to.dim.x, to.dim.y);
         }
     }
-    //ctx.closePath();
     
     if (edge.selected) {
         this.edgeSelectedStyleOn(ctx, edge);
@@ -158,9 +168,10 @@ Graph.prototype.drawEdge = function(ctx, edge) {
 
 }
 
-/*
+/**
     Drawing the shapes
-*/
+    These functions are also used to draw Node outlines for determining Node selection
+**/
 Graph.prototype.drawRect = function(ctx, node) {
     ctx.beginPath(); 
     ctx.moveTo(node.dim.x - (node.dim.width/2)*this.zoomScale, node.dim.y - (node.dim.height/2)*this.zoomScale); 
@@ -169,26 +180,6 @@ Graph.prototype.drawRect = function(ctx, node) {
     ctx.lineTo(node.dim.x - (node.dim.width/2)*this.zoomScale, node.dim.y + (node.dim.height/2)*this.zoomScale); 
     ctx.closePath();
 }
-
-Graph.prototype.drawOvalOld = function(ctx, node) {
-    // Code from http://www.html5canvastutorials.com/tutorials/html5-canvas-ovals/
-    var controlRectWidth = node.dim.width * 1.25;
- 
-    ctx.beginPath();
-    ctx.moveTo(node.dim.x,node.dim.y - node.dim.height/2);
-    // draw left side of oval
-    ctx.bezierCurveTo(node.dim.x-controlRectWidth/2, node.dim.y-node.dim.height/2,
-        node.dim.x-controlRectWidth/2,node.dim.y+node.dim.height/2,
-        node.dim.x,node.dim.y+node.dim.height/2);
- 
-    // draw right side of oval
-    ctx.bezierCurveTo(node.dim.x+controlRectWidth/2,node.dim.y+node.dim.height/2,
-        node.dim.x+controlRectWidth/2,node.dim.y-node.dim.height/2,
-        node.dim.x,node.dim.y-node.dim.height/2);
-    
-    ctx.closePath();
-}
-
 Graph.prototype.drawOval = function(ctx, node) {
     // Code from http://www.html5canvastutorials.com/tutorials/html5-canvas-ovals/
     var controlRectWidth = node.dim.width * 1.25 ;
@@ -207,7 +198,6 @@ Graph.prototype.drawOval = function(ctx, node) {
     
     ctx.closePath();
 }
-
 Graph.prototype.drawHex = function(ctx, node) {
     ctx.beginPath();
     
@@ -222,7 +212,9 @@ Graph.prototype.drawHex = function(ctx, node) {
     ctx.closePath();
 }
 
-// Draw selection handles around the outside of the shape
+/**
+    Draw selection handles around outside of shape
+**/
 Graph.prototype.drawSelectionHandles = function(ctx, node) {
 
     this.handleContext = ctx;
@@ -249,7 +241,9 @@ Graph.prototype.drawSelectionHandles = function(ctx, node) {
     ctx.fillStyle = saveFillStyle;
 }
 
-// Turn on shadows for the subsequently drawn elements
+/**
+    Turn on shadows for the subsequently drawn elements
+**/
 Graph.prototype.edgeSelectedStyleOn = function(ctx, edge) {
     ctx.shadowBlur = parseInt(this.theme.edgeGlowSize);
     if (edge.valence < this.neutralValence) {
@@ -259,7 +253,9 @@ Graph.prototype.edgeSelectedStyleOn = function(ctx, edge) {
     }
 }
 
-// Turn off shadows for the subsequently drawn elements
+/**
+    Turn off shadows for the subsequently drawn elements
+**/
 Graph.prototype.edgeStyleNormal = function(ctx, edge) {
     ctx.shadowBlur = 0;
     if (edge.valence < this.neutralValence) {
@@ -269,6 +265,9 @@ Graph.prototype.edgeStyleNormal = function(ctx, edge) {
     }
 }
 
+/**
+    Style hovered Edges
+**/
 Graph.prototype.edgeHoverStyleOn = function(ctx, edge) {
     ctx.shadowBlur = parseInt(this.theme.edgeGlowSize);
     if (edge.valence < this.neutralValence) {
@@ -278,7 +277,9 @@ Graph.prototype.edgeHoverStyleOn = function(ctx, edge) {
     }
 }
 
-// Fill in the text of a node centred horizontally and vertically in the node
+/**
+    Fill in the text of a node centred horizontally and vertically in the node
+**/
 Graph.prototype.drawText = function(ctx, node) {
     var style = this.theme.nodeFontSize + ' ' + this.theme.nodeFontFamily;
     if (Math.abs(node.valence) > this.strongThreshold) {
@@ -289,8 +290,6 @@ Graph.prototype.drawText = function(ctx, node) {
     ctx.textAlign = this.textAlign;
     ctx.textBaseline = this.textBaseline;
     
-    //ctx.fillStyle = this.fontColour;
-    //ctx.fillStyle = (node.selected ? this.theme.nodeFontFillFocused : this.theme.nodeFontFillNormal);
     if (node.valence > this.neutralValence) {
         ctx.fillStyle = ( node.selected ? this.theme.nodePositiveFontFocused : this.theme.nodePositiveFontNormal );
     } else if (node.valence < this.neutralValence) {
@@ -313,11 +312,15 @@ Graph.prototype.drawText = function(ctx, node) {
     }
 }
 
-// Save an the canvas content as an image
+/**
+    Save the canvas content as a PNG image. If thumb is true, creates a 
+    407 x 260 thumbnail for the Conflict Overview page. 
+    
+    @returns a string containing the PNG image data. 
+**/
 Graph.prototype.createImage = function(thumb) {
     var canvas = this.canvas;
     var ctx = this.ctx;
-    //window.location = canvas.toDataURL("image/png");
     var img = new Image();
     var canvasCopy = document.createElement("canvas");
     
@@ -333,14 +336,15 @@ Graph.prototype.createImage = function(thumb) {
         var contextCopy = canvasCopy.getContext("2d");
         contextCopy.drawImage(canvas, bounds.left -5, bounds.top -5, canvasCopy.width, canvasCopy.height, 0, 0, canvasCopy.width, canvasCopy.height);
     }
-    //var contextCopy = canvasCopy.getContext("2d");
-    //contextCopy.drawImage(canvas, bounds., 0, canvas.width, canvas.height, 0, 0, canvasCopy.width, canvasCopy.height);
     
     var thumb = canvasCopy.toDataURL("image/png");
     
     return thumb;
 }
 
+/**
+    Find the bounding box fitting all the shapes in the Graph
+**/
 Graph.prototype.getBounds = function() {
     var bounds = {};
     var nodeCount = 0;
@@ -398,21 +402,4 @@ Graph.prototype.getBounds = function() {
     return bounds;
 }
 
-Graph.prototype.drawComplexEdge = function(pArray) {
-    this.ctx.lineWidth = this.edgeWidth;
-    this.ctx.strokeStyle = this.edgeColour;
-    this.ctx.moveTo(pArray[0].x, pArray[0].y);
-
-    for (var i = pArray.length % 2; i < pArray.length; i += 2) {
-        var cp = pArray[i];     // control point
-        var ep = pArray[i+1];    // endpoint
-        this.ctx.quadraticCurveTo(cp.x, cp.y, ep.x, ep.y);
-    }
-    
-    this.ctx.stroke();
-    
-    // Reset 
-    this.pointArray = [];
-    
-}
 

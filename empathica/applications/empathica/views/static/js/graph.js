@@ -169,7 +169,7 @@ function Graph() {
     this.addingEdgeFromNode = new Object();
     this.addingEdgeAddedZero = "addingEdgeZero";
     this.addingEdgeAddedOne = "addingEdgeOne";
-    this.complexEdge = true;
+    this.allowComplexEdge = true;       // Set this to false to disallow the creation of multi-point edges
 
     // UI Input mode state machine - defines Graph behaviour based on UI settings
     this.stateAddingNodes = "stateAddingNodes";

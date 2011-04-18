@@ -1,3 +1,18 @@
+/** 
+    Themes define the appearance of the nodes and edges of the graph. 
+    
+    Theme properties follow a fairly intuitive naming convention where
+    
+    Normal  - normal appearance with no modifiers
+    Hover   - appearance when the cursor is over the specified object
+    Focused - appearance when the object is part of the selection
+    
+    Note: The DEFAULT theme should never be removed. 
+    
+    Author:         Alex Bass
+    Last Updated:   2011-04-17
+ **/ 
+
 var THEMES = {
 
     DEFAULT: {
@@ -84,6 +99,7 @@ var THEMES = {
         commFontGlowHover:              "rgba(255,255,255,255)",
         commFontGlowFocused:            "rgba(255,255,255,255)",
     },
+    /* Monochrome theme for black-and-white printing and colour-blind accessibility */
     MONOCHROME: {
         themeName:                      "Monochrome Theme",
         nodeFontFamily:                 "Verdana",
