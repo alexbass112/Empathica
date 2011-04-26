@@ -109,6 +109,17 @@ Graph.prototype.centreGraph = function() {
         newValues[i] = {'x': n.dim.x, 'y': n.dim.y, 'width': n.dim.width, 'height': n.dim.height};
     }
     
+    // Adjust complex edge positions
+    for (var i in this.edges) {
+        var edge = g.edges[i];
+        if (edge.innerPoints) {
+            for (var p = 0; p < edge.innerPoints.length; p++) {
+                edge.innerPoints[p].x += dx;
+                edge.innerPoints[p].y += dy;
+            }
+        }
+    }
+    
     if (g.selectedObject instanceof Node || g.selectedObject instanceof Edge) {
         //g.positionSlider(g.selectedObject);
         g.showValenceSelector(g.selectedObject);
