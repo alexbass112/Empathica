@@ -337,7 +337,7 @@ Graph.prototype.createImage = function(thumb) {
         debugOut(bounds);
         debugOut(canvasCopy.width);
         debugOut(canvasCopy.height);
-        contextCopy.drawImage(canvas, bounds.left -5, bounds.top -5, canvasCopy.width, canvasCopy.height, 0, 0, canvasCopy.width, canvasCopy.height);
+        contextCopy.drawImage(canvas, max(0,bounds.left -5), max(0,bounds.top -5), canvasCopy.width, canvasCopy.height, 0, 0, canvasCopy.width, canvasCopy.height);
     }
     
     var thumb = canvasCopy.toDataURL("image/png");
