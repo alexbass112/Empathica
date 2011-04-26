@@ -6,7 +6,7 @@
     Last Updated:   2011-04-17
  **/ 
 
-var debug = false;
+var debug = true;
 
 /**
     Output data to a debug console 

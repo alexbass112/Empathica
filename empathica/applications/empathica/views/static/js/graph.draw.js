@@ -334,6 +334,9 @@ Graph.prototype.createImage = function(thumb) {
         canvasCopy.width = bounds.right - bounds.left + 10;
         canvasCopy.height = bounds.bottom - bounds.top + 10;
         var contextCopy = canvasCopy.getContext("2d");
+        debugOut(bounds);
+        debugOut(canvasCopy.width);
+        debugOut(canvasCopy.height);
         contextCopy.drawImage(canvas, bounds.left -5, bounds.top -5, canvasCopy.width, canvasCopy.height, 0, 0, canvasCopy.width, canvasCopy.height);
     }
     
@@ -349,7 +352,7 @@ Graph.prototype.getBounds = function() {
     var bounds = {};
     var nodeCount = 0;
     var first = "";
-    for (var i in this.nodes) { nodeCount++; var first = i;}
+    for (var i in this.nodes) { nodeCount++; first = i;}
     if (nodeCount == 0) {
         bounds.left = 0;
         bounds.top = 0;
